@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/llh2
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+  flyway:
+    table: app_schema_version
+    locations: classpath:db/migration
+    enabled: true
+
+
+app:
+  initializer:
+    version: 1

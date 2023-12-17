@@ -1,34 +1,10 @@
 spring:
-  datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/llh2
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
-  messages:
-    basename: victim
-  batch:
-    jdbc:
-      initialize-schema: always
-    job:
-      enabled: false
-
+  profiles:
+    active: 'dev'
+    group:
+      "dev": "references, micro"
 server:
   port: 8082
-
-#token:
-#  valid:
-#    duration: 86400000
-
+logging:
   file:
-    name: dvdRental.log
-
-#jwt:
-#  signing: ${JWT_SIGNING:secret}
-#  expiration: 6000000
-
-app:
-  initializer:
-    version: 1
+    name: llh2.log
