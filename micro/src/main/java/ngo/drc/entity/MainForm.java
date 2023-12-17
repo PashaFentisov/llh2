@@ -59,7 +59,7 @@ public class MainForm {
 
     @ElementCollection
     @CollectionTable(name = "negative_survival_strategies", joinColumns = @JoinColumn(name = "main_form_id"))
-    List<String> negativeSurvivalStrategy = new ArrayList<>();
+    List<String> negativeSurvivalStrategies = new ArrayList<>();
 
     private boolean tookPartInSuchPrograms;
     private String aboutProgram; //todo якщо вибрато інше то те що буде введено піде сюди інакше прийде ключ вибраного значення

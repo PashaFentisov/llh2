@@ -6,4 +6,4 @@ create table home_leaving_reasons
 
 alter table if exists home_leaving_reasons
     add constraint home_leaving_reason_foreign foreign key (main_form_id) references main_form (id);
-CREATE INDEX idx_main_form_id ON home_leaving_reasons (main_form_id);
+CREATE INDEX idx_home_leaving_reasons_main_form_id ON home_leaving_reasons (main_form_id);

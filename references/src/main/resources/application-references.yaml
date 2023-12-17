@@ -5,7 +5,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/llh2
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     open-in-view: false
   batch:
     jdbc:
@@ -16,7 +16,6 @@ spring:
     table: app_schema_version
     locations: classpath:db/migration
     enabled: true
-
 
 app:
   initializer:
