@@ -1,9 +1,10 @@
 package ngo.drc.micro.controller;
 
 import lombok.AllArgsConstructor;
-import ngo.drc.bundle.form.MicroMainForm;
-import ngo.drc.dto.MainFormSavingDto;
-import ngo.drc.service.MainFormService;
+import ngo.drc.micro.dto.MainFormSavingDto;
+import ngo.drc.micro.form.MicroMainForm;
+import ngo.drc.micro.service.MainFormInfoService;
+import ngo.drc.micro.service.MainFormService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/main-form")
 public class MainFormController {
     private final MainFormService mainFormService;
+    private final MainFormInfoService mainFormInfoService;
 
     @GetMapping("/info")
     public ResponseEntity<MicroMainForm> getMainFormInfo() {
-        return ResponseEntity.ok(mainFormService.getMainFormInfo());
+        return ResponseEntity.ok(mainFormInfoService.getMainFormInfo());
     }
 
     @PostMapping

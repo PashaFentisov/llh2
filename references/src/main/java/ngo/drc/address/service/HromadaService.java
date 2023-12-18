@@ -6,7 +6,7 @@ import ngo.drc.address.dto.HromadaResponseDto;
 import ngo.drc.address.entity.Hromada;
 import ngo.drc.address.mapper.HromadaMapper;
 import ngo.drc.address.repository.HromadaRepository;
-import ngo.drc.bundle.locale.LocaleContextHolder;
+import ngo.drc.locale.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

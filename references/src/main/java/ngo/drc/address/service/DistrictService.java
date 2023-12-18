@@ -7,7 +7,7 @@ import ngo.drc.address.dto.DistrictResponseDto;
 import ngo.drc.address.entity.District;
 import ngo.drc.address.mapper.DistrictMapper;
 import ngo.drc.address.repository.DistrictRepository;
-import ngo.drc.bundle.locale.LocaleContextHolder;
+import ngo.drc.locale.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
