@@ -1,11 +1,17 @@
 package ngo.drc.micro.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import ngo.drc.exception.EntityValidationException;
+import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.form.MicroMainForm;
 import ngo.drc.micro.service.MainFormInfoService;
 import ngo.drc.micro.service.MainFormService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 public class MainFormController {
     private final MainFormService mainFormService;
     private final MainFormInfoService mainFormInfoService;
+    private final Logger logger = LoggerFactory.getLogger(MainFormController.class);
+
 
     @GetMapping("/info")
     public ResponseEntity<MicroMainForm> getMainFormInfo() {
@@ -21,9 +29,15 @@ public class MainFormController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveMicroMainFormInfo(@RequestBody MainFormSavingDto mainFormSavingDto) {  //todo нічого не повертає, треба?
-        mainFormService.saveMicroMainFormInfo(mainFormSavingDto);  //todo валідація на фронтенді чи бекенді
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MainFormResponseDto> saveMicroMainForm(@RequestBody @Valid MainFormSavingDto mainFormSavingDto,
+                                                                 Errors errors) {
+        if (errors.hasErrors()) {
+            errors.getFieldErrors().forEach(er -> logger.error(er.getDefaultMessage()));
+            throw new EntityValidationException("Validation failed", errors);
+        }
+        MainFormResponseDto mainFormResponseDto = mainFormService.saveMicroMainForm(mainFormSavingDto);
+        return ResponseEntity.ok(mainFormResponseDto);
     }
 
+    //todo фільтр 20 000
 }

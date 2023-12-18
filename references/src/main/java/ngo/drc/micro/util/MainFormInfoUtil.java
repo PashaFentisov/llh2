@@ -2,6 +2,9 @@ package ngo.drc.micro.util;
 
 
 public class MainFormInfoUtil {
+
+    private MainFormInfoUtil() {
+    }
     public static final String BUNDLE_NAME = "reference_book";
 
     public static final String ABOUT_PROGRAM_KEY = "about.program.";

@@ -13,7 +13,6 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class DocumentInfoDto {
     private String documentType;
-    private String documentName;
     private String documentSeries;
     private Long documentNumber;
     private String documentIssuedBy;

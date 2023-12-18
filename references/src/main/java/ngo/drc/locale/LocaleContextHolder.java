@@ -8,6 +8,9 @@ public class LocaleContextHolder {
     }
 
     public static String getLocale() {
+        if (contextHolder.get() == null) {
+            return "en";
+        }
         return contextHolder.get();
     }
 

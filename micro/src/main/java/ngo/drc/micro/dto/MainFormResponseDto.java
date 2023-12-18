@@ -13,7 +13,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MainFormSavingDto {
+public class MainFormResponseDto {
+    private Long id;
     private AddressInfoDto addressInfo;
     private BusinessInfoDto businessInfo;
     private ContactInfoDto contactInfo;
