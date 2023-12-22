@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/hromadas")
+@RequestMapping("api/v1/references/hromadas")
 public class HromadaController {
     private final HromadaService hromadaService;
 

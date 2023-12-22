@@ -15,9 +15,7 @@ public class DistrictItemWriter implements ItemWriter<DistrictData> {
 
     @Override
     public void write(Chunk<? extends DistrictData> chunk) {
-        List<? extends DistrictData> districts = chunk.getItems();
-        for (DistrictData district : districts) {
-            districtService.saveDistrict(district);
-        }
+        List<DistrictData> districts = (List<DistrictData>) chunk.getItems();
+        districtService.saveDistricts(districts);
     }
 }

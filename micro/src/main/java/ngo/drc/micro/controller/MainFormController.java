@@ -1,5 +1,6 @@
 package ngo.drc.micro.controller;
 
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ngo.drc.exception.EntityValidationException;
@@ -13,10 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/v1/main-form")
+@RequestMapping("api/v1/micro/main-form")
 public class MainFormController {
     private final MainFormService mainFormService;
     private final MainFormInfoService mainFormInfoService;
@@ -38,6 +38,4 @@ public class MainFormController {
         MainFormResponseDto mainFormResponseDto = mainFormService.saveMicroMainForm(mainFormSavingDto);
         return ResponseEntity.ok(mainFormResponseDto);
     }
-
-    //todo фільтр 20 000
 }

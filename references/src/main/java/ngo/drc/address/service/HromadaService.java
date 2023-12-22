@@ -24,6 +24,12 @@ public class HromadaService {
         hromadaRepository.save(hromada);
     }
 
+    @Transactional
+    public void saveHromadas(List<HromadaData> hromadaData) {
+        List<Hromada> list = hromadaData.stream().map(hromadaMapper::toEntity).toList();
+        hromadaRepository.saveAll(list);
+    }
+
     @Transactional(readOnly = true)
     public List<HromadaResponseDto> getHromadasByDistrictCode(String districtCode) {
         return switch (Locale.forLanguageTag(LocaleContextHolder.getLocale()).getLanguage()) {

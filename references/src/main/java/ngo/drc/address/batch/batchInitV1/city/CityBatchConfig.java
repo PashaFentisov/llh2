@@ -40,7 +40,7 @@ public class CityBatchConfig {
                                    PlatformTransactionManager transactionManager) {
 
         return new StepBuilder("city-step", jobRepository)
-                .<CityData, CityData>chunk(2, transactionManager)
+                .<CityData, CityData>chunk(5000, transactionManager)
                 .reader(csvReader)
                 .processor(itemProcessor)
                 .writer(dbWriter)

@@ -5,6 +5,3 @@ spring:
       "dev": "references, micro"
 server:
   port: 8082
-logging:
-  file:
-    name: llh2.log

@@ -26,6 +26,12 @@ public class DistrictService {
         districtRepository.save(district);
     }
 
+    @Transactional
+    public void saveDistricts(List<DistrictData> districtData) {
+        List<District> list = districtData.stream().map(districtMapper::toEntity).toList();
+        districtRepository.saveAll(list);
+    }
+
     @Transactional(readOnly = true)
     public List<DistrictResponseDto> getDistrictsByRegionCode(String regionCode) {
         return switch (Locale.forLanguageTag(LocaleContextHolder.getLocale()).getLanguage()) {

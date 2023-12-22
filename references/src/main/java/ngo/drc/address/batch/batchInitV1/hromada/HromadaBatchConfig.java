@@ -40,7 +40,7 @@ public class HromadaBatchConfig {
                                    PlatformTransactionManager transactionManager) {
 
         return new StepBuilder("hromada-step", jobRepository)
-                .<HromadaData, HromadaData>chunk(2, transactionManager)
+                .<HromadaData, HromadaData>chunk(100, transactionManager)
                 .reader(csvReader)
                 .processor(itemProcessor)
                 .writer(dbWriter)

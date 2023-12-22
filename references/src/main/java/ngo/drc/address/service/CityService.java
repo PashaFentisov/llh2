@@ -24,6 +24,12 @@ public class CityService {
         cityRepository.save(city);
     }
 
+    @Transactional
+    public void saveCities(List<CityData> cityData) {
+        List<City> list = cityData.stream().map(cityMapper::toEntity).toList();
+        cityRepository.saveAll(list);
+    }
+
     @Transactional(readOnly = true)
     public List<CityResponseDto> getCitiesByHromadaCode(String hromadaCode) {
         return switch (Locale.forLanguageTag(LocaleContextHolder.getLocale()).getLanguage()) {

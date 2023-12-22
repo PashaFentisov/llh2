@@ -13,9 +13,7 @@ public class CityItemWriter implements ItemWriter<CityData> {
     private final CityService cityService;
     @Override
     public void write(Chunk<? extends CityData> chunk){
-        List<? extends CityData> cities = chunk.getItems();
-        for (CityData city : cities) {
-            cityService.saveCity(city);
-        }
+        List<CityData> cities = (List<CityData>) chunk.getItems();
+        cityService.saveCities(cities);
     }
 }

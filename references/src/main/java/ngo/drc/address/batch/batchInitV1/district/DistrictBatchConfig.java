@@ -40,7 +40,7 @@ public class DistrictBatchConfig {
                                     PlatformTransactionManager transactionManager) {
 
         return new StepBuilder("district-step", jobRepository)
-                .<DistrictData, DistrictData>chunk(2, transactionManager)
+                .<DistrictData, DistrictData>chunk(20, transactionManager)
                 .reader(csvReader)
                 .processor(itemProcessor)
                 .writer(dbWriter)

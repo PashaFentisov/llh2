@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -40,11 +41,13 @@ public class MainForm {
 
     @ElementCollection
     @CollectionTable(name = "conflict_damages", joinColumns = @JoinColumn(name = "main_form_id"))
-    List<String> conflictDamages = new ArrayList<>();
+    @BatchSize(size = 1000)
+    Set<String> conflictDamages = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "home_leaving_reasons", joinColumns = @JoinColumn(name = "main_form_id"))
-    List<String> homeLeavingReasons = new ArrayList<>();
+    @BatchSize(size = 1000)
+    Set<String> homeLeavingReasons = new HashSet<>();
 
     private int peopleLeavingWithYou;
     private String threeMonthMovingPlans;
@@ -53,18 +56,16 @@ public class MainForm {
 
     @ElementCollection
     @CollectionTable(name = "vulnerabilities", joinColumns = @JoinColumn(name = "main_form_id"))
-    List<String> vulnerabilities = new ArrayList<>();
+    @BatchSize(size = 1000)
+    Set<String> vulnerabilities = new HashSet<>();
 
     private String selfSufficiency;
 
     @ElementCollection
+    @BatchSize(size = 1000)
     @CollectionTable(name = "negative_survival_strategies", joinColumns = @JoinColumn(name = "main_form_id"))
-    List<String> negativeSurvivalStrategies = new ArrayList<>();
+    Set<String> negativeSurvivalStrategies = new HashSet<>();
 
     private boolean tookPartInSuchPrograms;
     private String aboutProgram; //todo якщо вибрато інше то те що буде введено піде сюди інакше прийде ключ вибраного значення
-
-    @OneToOne(mappedBy = "mainForm", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Micro micro;
-
 }

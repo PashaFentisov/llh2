@@ -14,9 +14,7 @@ public class HromadaItemWriter implements ItemWriter<HromadaData> {
     private final HromadaService hromadaService;
     @Override
     public void write(Chunk<? extends HromadaData> chunk){
-        List<? extends HromadaData> hromades = chunk.getItems();
-        for (HromadaData hromada : hromades) {
-            hromadaService.saveHromada(hromada);
-        }
+        List<HromadaData> hromadas = (List<HromadaData>) chunk.getItems();
+        hromadaService.saveHromadas(hromadas);
     }
 }
