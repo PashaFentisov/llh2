@@ -45,5 +45,7 @@ CREATE TABLE main_form
     family_average_monthly_income_before_conflict VARCHAR(500)  NOT NULL,
     self_sufficiency                              VARCHAR(100)  NOT NULL,
     took_part_in_such_programs                    boolean       NOT NULL,
-    about_program                                 VARCHAR(100)  NOT NULL
+    about_program VARCHAR(100) NOT NULL,
+    is_deleted    boolean      NOT NULL
+
 );

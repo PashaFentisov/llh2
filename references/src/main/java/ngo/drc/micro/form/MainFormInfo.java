@@ -9,7 +9,7 @@ import ngo.drc.micro.dto.*;
 @AllArgsConstructor
 @Data
 @Builder
-public class MicroMainForm {
+public class MainFormInfo {
     private AboutProgram aboutProgram;
     private ConflictDamage conflictDamage;
     private Gender gender;

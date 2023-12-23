@@ -37,7 +37,7 @@ public class MainForm {
     private Long vpoReferenceNumber;
     private OffsetDateTime vpoReferenceIssuedDate;
 
-    private String grandFunding; //todo якщо вибрато інше то те що буде введено піде сюди інакше прийде ключ вибраного значення
+    private String grandFunding;
 
     @ElementCollection
     @CollectionTable(name = "conflict_damages", joinColumns = @JoinColumn(name = "main_form_id"))
@@ -67,5 +67,6 @@ public class MainForm {
     Set<String> negativeSurvivalStrategies = new HashSet<>();
 
     private boolean tookPartInSuchPrograms;
-    private String aboutProgram; //todo якщо вибрато інше то те що буде введено піде сюди інакше прийде ключ вибраного значення
+    private String aboutProgram;
+    private boolean isDeleted;
 }
