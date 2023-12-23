@@ -23,4 +23,17 @@ public class BusinessInfo {
     private boolean employeesHave;
     private Long numberOfEmployees;
     private Long businessMonthlyIncome;
+
+    public BusinessInfo(BusinessInfo businessInfo) {
+        this.shortBusinessIdeaDescription = businessInfo.getShortBusinessIdeaDescription();
+        this.businessManufacturingPlace = businessInfo.getBusinessManufacturingPlace();
+        this.businessManufacturingWay = businessInfo.getBusinessManufacturingWay();
+        this.businessConsumers = businessInfo.getBusinessConsumers();
+        this.neededGrantAmount = businessInfo.getNeededGrantAmount();
+        this.grantExpenses = businessInfo.getGrantExpenses();
+        this.investedMoneyAmount = businessInfo.getInvestedMoneyAmount();
+        this.employeesHave = businessInfo.isEmployeesHave();
+        this.numberOfEmployees = businessInfo.getNumberOfEmployees();
+        this.businessMonthlyIncome = businessInfo.getBusinessMonthlyIncome();
+    }
 }

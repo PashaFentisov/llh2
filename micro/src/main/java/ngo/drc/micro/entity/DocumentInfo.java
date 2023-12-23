@@ -19,4 +19,12 @@ public class DocumentInfo {
     private Long documentNumber;
     private String documentIssuedBy;
     private OffsetDateTime documentIssuedDate;
+
+    public DocumentInfo(DocumentInfo documentInfo) {
+        this.documentType = documentInfo.getDocumentType();
+        this.documentSeries = documentInfo.getDocumentSeries();
+        this.documentNumber = documentInfo.getDocumentNumber();
+        this.documentIssuedBy = documentInfo.getDocumentIssuedBy();
+        this.documentIssuedDate = documentInfo.getDocumentIssuedDate();
+    }
 }

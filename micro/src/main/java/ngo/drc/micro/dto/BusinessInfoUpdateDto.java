@@ -16,7 +16,7 @@ public class BusinessInfoUpdateDto {
     private String neededGrantAmount;
     private String grantExpenses;
     private String investedMoneyAmount;
-    private boolean employeesHave;
+    private Boolean employeesHave;
     @Min(value = 0, message = "Number of employees can`t be negative")
     private Long numberOfEmployees;
     private Long businessMonthlyIncome;

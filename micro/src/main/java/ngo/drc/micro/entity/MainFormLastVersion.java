@@ -5,21 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
 
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MainForm {
+public class MainFormLastVersion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long userId;
 
     @Embedded
     private ContactInfo contactInfo;
@@ -39,56 +38,44 @@ public class MainForm {
 
     private String grandFunding;
 
-    @ElementCollection
-    @CollectionTable(name = "conflict_damages", joinColumns = @JoinColumn(name = "main_form_id"))
-    @BatchSize(size = 1000)
-    Set<String> conflictDamages = new HashSet<>();
+    String conflictDamages;
 
-    @ElementCollection
-    @CollectionTable(name = "home_leaving_reasons", joinColumns = @JoinColumn(name = "main_form_id"))
-    @BatchSize(size = 1000)
-    Set<String> homeLeavingReasons = new HashSet<>();
+    String homeLeavingReasons;
 
     private int peopleLeavingWithYou;
     private String threeMonthMovingPlans;
     private String familyAverageMonthlyIncome;
     private String familyAverageMonthlyIncomeBeforeConflict;
 
-    @ElementCollection
-    @CollectionTable(name = "vulnerabilities", joinColumns = @JoinColumn(name = "main_form_id"))
-    @BatchSize(size = 1000)
-    Set<String> vulnerabilities = new HashSet<>();
+    String vulnerabilities;
 
     private String selfSufficiency;
 
-    @ElementCollection
-    @BatchSize(size = 1000)
-    @CollectionTable(name = "negative_survival_strategies", joinColumns = @JoinColumn(name = "main_form_id"))
-    Set<String> negativeSurvivalStrategies = new HashSet<>();
+    String negativeSurvivalStrategies;
 
     private boolean tookPartInSuchPrograms;
     private String aboutProgram;
     private boolean isDeleted;
 
-    public MainForm(MainForm mainForm) {
-        this.id = mainForm.getId();
-        this.contactInfo = new ContactInfo(mainForm.getContactInfo());
-        this.documentInfo = new DocumentInfo(mainForm.getDocumentInfo());
-        this.addressInfo = new AddressInfo(mainForm.getAddressInfo());
-        this.businessInfo = new BusinessInfo(mainForm.getBusinessInfo());
+    public MainFormLastVersion(MainForm mainForm) {
+        this.userId = mainForm.getId();
+        this.contactInfo = mainForm.getContactInfo();
+        this.documentInfo = mainForm.getDocumentInfo();
+        this.addressInfo = mainForm.getAddressInfo();
+        this.businessInfo = mainForm.getBusinessInfo();
         this.isVpo = mainForm.isVpo();
         this.vpoReferenceNumber = mainForm.getVpoReferenceNumber();
         this.vpoReferenceIssuedDate = mainForm.getVpoReferenceIssuedDate();
         this.grandFunding = mainForm.getGrandFunding();
-        this.conflictDamages = new HashSet<>(mainForm.getConflictDamages());
-        this.homeLeavingReasons = new HashSet<>(mainForm.getHomeLeavingReasons());
+        this.conflictDamages = mainForm.getConflictDamages().stream().reduce("", (a, b) -> a + "|" + b);
+        this.homeLeavingReasons = mainForm.getHomeLeavingReasons().stream().reduce("", (a, b) -> a + "|" + b);
         this.peopleLeavingWithYou = mainForm.getPeopleLeavingWithYou();
         this.threeMonthMovingPlans = mainForm.getThreeMonthMovingPlans();
         this.familyAverageMonthlyIncome = mainForm.getFamilyAverageMonthlyIncome();
         this.familyAverageMonthlyIncomeBeforeConflict = mainForm.getFamilyAverageMonthlyIncomeBeforeConflict();
-        this.vulnerabilities = new HashSet<>(mainForm.getVulnerabilities());
+        this.vulnerabilities = mainForm.getVulnerabilities().stream().reduce("", (a, b) -> a + "|" + b);
         this.selfSufficiency = mainForm.getSelfSufficiency();
-        this.negativeSurvivalStrategies = new HashSet<>(mainForm.getNegativeSurvivalStrategies());
+        this.negativeSurvivalStrategies = mainForm.getNegativeSurvivalStrategies().stream().reduce("", (a, b) -> a + "|" + b);
         this.tookPartInSuchPrograms = mainForm.isTookPartInSuchPrograms();
         this.aboutProgram = mainForm.getAboutProgram();
         this.isDeleted = mainForm.isDeleted();
