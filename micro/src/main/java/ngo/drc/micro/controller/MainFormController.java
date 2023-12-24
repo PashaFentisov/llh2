@@ -66,8 +66,14 @@ public class MainFormController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteMicroMainForm(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteMainForm(@PathVariable Long id) {
         mainFormService.deleteMicroMainForm(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/set-as-not-deleted/{id}")
+    public ResponseEntity<Object> setAsNotDeletedMainForm(@PathVariable Long id) {
+        mainFormService.setAsNotDeletedMainForm(id);
         return ResponseEntity.noContent().build();
     }
 

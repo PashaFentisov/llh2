@@ -57,7 +57,8 @@ public class MainFormLastVersion {
     private String aboutProgram;
     private boolean isDeleted;
 
-    public MainFormLastVersion(MainForm mainForm) {
+
+    public void setMainForm(MainForm mainForm) {
         this.userId = mainForm.getId();
         this.contactInfo = mainForm.getContactInfo();
         this.documentInfo = mainForm.getDocumentInfo();

@@ -16,6 +16,8 @@ public interface MainFormService {
 
     void deleteMicroMainForm(Long id);
 
+    void setAsNotDeletedMainForm(Long id);
+
     MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, Long id);
 
     GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(Long id);

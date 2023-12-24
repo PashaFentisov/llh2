@@ -63,10 +63,19 @@ public class MainFormServiceImpl implements MainFormService {
     }
 
     @Transactional
+    @Override
     public void deleteMicroMainForm(Long id) {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
         mainForm.setDeleted(true);
+    }
+
+    @Override
+    @Transactional
+    public void setAsNotDeletedMainForm(Long id) {
+        MainForm mainForm = mainFormRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
+        mainForm.setDeleted(false);
     }
 
     @Transactional
@@ -139,7 +148,15 @@ public class MainFormServiceImpl implements MainFormService {
     }
 
     public void saveLastMainFormVersion(MainForm mainForm) {
-        MainFormLastVersion mainFormLastVersion = new MainFormLastVersion(mainForm);
+        Optional<MainFormLastVersion> optionalMainFormLastVersion = mainFormLastVersionRepository.findByUserId(mainForm.getId());
+        if (optionalMainFormLastVersion.isEmpty()) {
+            MainFormLastVersion mainFormLastVersion = new MainFormLastVersion();
+            mainFormLastVersion.setMainForm(mainForm);
+            mainFormLastVersionRepository.save(mainFormLastVersion);
+            return;
+        }
+        MainFormLastVersion mainFormLastVersion = optionalMainFormLastVersion.orElseThrow(EntityNotFoundException::new);
+        mainFormLastVersion.setMainForm(mainForm);
         mainFormLastVersionRepository.save(mainFormLastVersion);
     }
 }
