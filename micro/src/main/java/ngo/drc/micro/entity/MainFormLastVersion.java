@@ -18,7 +18,7 @@ public class MainFormLastVersion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    private Long mainFormId;
 
     @Embedded
     private ContactInfo contactInfo;
@@ -59,7 +59,7 @@ public class MainFormLastVersion {
 
 
     public void setMainForm(MainForm mainForm) {
-        this.userId = mainForm.getId();
+        this.mainFormId = mainForm.getId();
         this.contactInfo = mainForm.getContactInfo();
         this.documentInfo = mainForm.getDocumentInfo();
         this.addressInfo = mainForm.getAddressInfo();

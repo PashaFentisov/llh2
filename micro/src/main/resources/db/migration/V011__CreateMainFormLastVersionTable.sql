@@ -1,7 +1,7 @@
 CREATE TABLE main_form_last_version
 (
     id                                            BIGSERIAL PRIMARY KEY,
-    user_id                                       BIGINT        NOT NULL,
+    main_form_id BIGINT NOT NULL,
     phone_number                                  VARCHAR(20)   NOT NULL,
     conflict_damages                              VARCHAR(1000) NOT NULL,
     home_leaving_reasons                          VARCHAR(1000) NOT NULL,

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface MainFormLastVersionRepository extends JpaRepository<MainFormLastVersion, Long> {
 
-    @Query("SELECT m FROM MainFormLastVersion m WHERE m.userId = :userId")
-    Optional<MainFormLastVersion> findByUserId(@Param("userId") Long userId);
+    @Query("SELECT m FROM MainFormLastVersion m WHERE m.mainFormId = :mainFormId")
+    Optional<MainFormLastVersion> findByMainFormId(@Param("mainFormId") Long mainFormId);
 }

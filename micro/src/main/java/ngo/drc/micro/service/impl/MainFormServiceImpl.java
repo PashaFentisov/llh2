@@ -148,7 +148,7 @@ public class MainFormServiceImpl implements MainFormService {
     }
 
     public void saveLastMainFormVersion(MainForm mainForm) {
-        Optional<MainFormLastVersion> optionalMainFormLastVersion = mainFormLastVersionRepository.findByUserId(mainForm.getId());
+        Optional<MainFormLastVersion> optionalMainFormLastVersion = mainFormLastVersionRepository.findByMainFormId(mainForm.getId());
         if (optionalMainFormLastVersion.isEmpty()) {
             MainFormLastVersion mainFormLastVersion = new MainFormLastVersion();
             mainFormLastVersion.setMainForm(mainForm);
