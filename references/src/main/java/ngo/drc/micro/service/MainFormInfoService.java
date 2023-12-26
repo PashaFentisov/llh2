@@ -3,7 +3,7 @@ package ngo.drc.micro.service;
 import lombok.RequiredArgsConstructor;
 import ngo.drc.locale.LocaleContextHolder;
 import ngo.drc.micro.dto.*;
-import ngo.drc.micro.form.MicroMainForm;
+import ngo.drc.micro.form.MainFormInfo;
 import ngo.drc.micro.util.MainFormInfoUtil;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,10 @@ public class MainFormInfoService {
     private ResourceBundle exampleBundle;
 
 
-    public MicroMainForm getMainFormInfo() {
+    public MainFormInfo getMainFormInfo() {
         exampleBundle = ResourceBundle.getBundle(MainFormInfoUtil.BUNDLE_NAME,
                 Locale.forLanguageTag(LocaleContextHolder.getLocale()));
-        return MicroMainForm.builder()
+        return MainFormInfo.builder()
                 .aboutProgram(buildMainFormComponent(new AboutProgram(), MainFormInfoUtil.ABOUT_PROGRAM_KEY, MainFormInfoUtil.ABOUT_PROGRAM_LABEL, MainFormInfoUtil.ABOUT_PROGRAM_IS_MULTIPLE))
                 .conflictDamage(buildMainFormComponent(new ConflictDamage(), MainFormInfoUtil.CONFLICT_DAMAGE_KEY, MainFormInfoUtil.CONFLICT_DAMAGE_LABEL, MainFormInfoUtil.CONFLICT_DAMAGE_IS_MULTIPLE))
                 .gender(buildMainFormComponent(new Gender(), MainFormInfoUtil.GENDER_KEY, MainFormInfoUtil.GENDER_LABEL, MainFormInfoUtil.GENDER_IS_MULTIPLE))

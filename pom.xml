@@ -114,6 +114,11 @@
                 <artifactId>micro</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>ngo.drc</groupId>
+                <artifactId>core</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -121,6 +126,7 @@
         <module>lap-app</module>
         <module>micro</module>
         <module>references</module>
+        <module>core</module>
     </modules>
 
     <build>

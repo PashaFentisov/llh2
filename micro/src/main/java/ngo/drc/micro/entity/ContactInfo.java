@@ -22,4 +22,15 @@ public class ContactInfo {
     private OffsetDateTime dateOfBirth;
     private String gender;
     private String ipn;
+
+    public ContactInfo(ContactInfo contactInfo) {
+        this.phoneNumber = contactInfo.getPhoneNumber();
+        this.email = contactInfo.getEmail();
+        this.firstName = contactInfo.getFirstName();
+        this.middleName = contactInfo.getMiddleName();
+        this.lastName = contactInfo.getLastName();
+        this.dateOfBirth = contactInfo.getDateOfBirth();
+        this.gender = contactInfo.getGender();
+        this.ipn = contactInfo.getIpn();
+    }
 }

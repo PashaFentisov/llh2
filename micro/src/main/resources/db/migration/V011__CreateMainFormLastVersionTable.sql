@@ -1,7 +1,12 @@
-CREATE TABLE main_form
+CREATE TABLE main_form_last_version
 (
     id                                            BIGSERIAL PRIMARY KEY,
+    main_form_id BIGINT NOT NULL,
     phone_number                                  VARCHAR(20)   NOT NULL,
+    conflict_damages                              VARCHAR(1000) NOT NULL,
+    home_leaving_reasons                          VARCHAR(1000) NOT NULL,
+    vulnerabilities                               VARCHAR(1000) NOT NULL,
+    negative_survival_strategies                  VARCHAR(1000) NOT NULL,
     email                                         VARCHAR(50)   NOT NULL,
     first_name                                    VARCHAR(50)   NOT NULL,
     middle_name                                   VARCHAR(50)   NOT NULL,
@@ -45,7 +50,8 @@ CREATE TABLE main_form
     family_average_monthly_income_before_conflict VARCHAR(500)  NOT NULL,
     self_sufficiency                              VARCHAR(100)  NOT NULL,
     took_part_in_such_programs                    boolean       NOT NULL,
-    about_program VARCHAR(100) NOT NULL,
-    is_deleted    boolean      NOT NULL
-
+    about_program                                 VARCHAR(100)  NOT NULL,
+    is_deleted                                    boolean       NOT NULL
 );
+
+CREATE INDEX idx_last_version_main_form_id ON main_form_last_version (main_form_id);

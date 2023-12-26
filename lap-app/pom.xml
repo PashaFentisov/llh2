@@ -28,6 +28,10 @@
             <groupId>ngo.drc</groupId>
             <artifactId>micro</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ngo.drc</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

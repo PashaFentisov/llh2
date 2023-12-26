@@ -33,6 +33,5 @@ public class MainFormResponseDto {
     Set<String> negativeSurvivalStrategies = new HashSet<>();
     private boolean tookPartInSuchPrograms;
     private String aboutProgram;
-
-
+    private boolean isDeleted;
 }

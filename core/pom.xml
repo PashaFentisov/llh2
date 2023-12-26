@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>ngo.drc</groupId>
         <artifactId>llh2</artifactId>
@@ -10,10 +9,10 @@
     </parent>
 
     <groupId>ngo.drc</groupId>
-    <artifactId>micro</artifactId>
+    <artifactId>core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>micro</name>
-    <description>micro</description>
+    <name>core</name>
+    <description>core</description>
 
     <properties>
         <java.version>21</java.version>
@@ -24,30 +23,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>ngo.drc</groupId>
-            <artifactId>references</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ngo.drc</groupId>
-            <artifactId>core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.22.3</version>
-                <configuration>
-                    <url>jdbc:postgresql://localhost:5432/llh2</url>
-                    <user>postgres</user>
-                    <password>postgres</password>
-                    <cleanDisabled>false</cleanDisabled>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
 </project>
