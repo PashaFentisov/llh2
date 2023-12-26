@@ -53,3 +53,5 @@ CREATE TABLE main_form_last_version
     about_program                                 VARCHAR(100)  NOT NULL,
     is_deleted                                    boolean       NOT NULL
 );
+
+CREATE INDEX idx_last_version_main_form_id ON main_form_last_version (main_form_id);
