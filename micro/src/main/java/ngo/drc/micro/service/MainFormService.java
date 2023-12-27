@@ -2,7 +2,7 @@ package ngo.drc.micro.service;
 
 import ngo.drc.core.dto.GenericFormResponse;
 import ngo.drc.core.dto.GenericPageFormResponse;
-import ngo.drc.endpoint.PageResponse;
+import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;

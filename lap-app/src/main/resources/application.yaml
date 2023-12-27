@@ -2,6 +2,6 @@ spring:
   profiles:
     active: 'dev'
     group:
-      "dev": "references, micro"
+      "dev": "references, micro, core"
 server:
   port: 8082

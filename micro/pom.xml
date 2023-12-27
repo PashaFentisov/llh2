@@ -9,7 +9,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>ngo.drc</groupId>
     <artifactId>micro</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>micro</name>
@@ -27,10 +26,6 @@
         <dependency>
             <groupId>ngo.drc</groupId>
             <artifactId>references</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ngo.drc</groupId>
-            <artifactId>core</artifactId>
         </dependency>
     </dependencies>
 

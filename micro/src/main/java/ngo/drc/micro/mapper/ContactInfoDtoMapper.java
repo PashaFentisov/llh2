@@ -1,6 +1,6 @@
 package ngo.drc.micro.mapper;
 
-import ngo.drc.address.mapper.GeneralMapper;
+import ngo.drc.core.mapper.GeneralMapper;
 import ngo.drc.micro.dto.ContactInfoDto;
 import ngo.drc.micro.entity.ContactInfo;
 import org.mapstruct.Mapper;
