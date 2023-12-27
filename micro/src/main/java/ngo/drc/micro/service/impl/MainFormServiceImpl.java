@@ -3,7 +3,6 @@ package ngo.drc.micro.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
-import ngo.drc.core.dto.GenericPageFormResponse;
 import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.core.endpoint.mapper.PageMapper;
 import ngo.drc.micro.dto.MainFormResponseDto;
@@ -11,6 +10,7 @@ import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;
 import ngo.drc.micro.entity.MainForm;
 import ngo.drc.micro.entity.MainFormLastVersion;
+import ngo.drc.micro.enumeration.MicroStatus;
 import ngo.drc.micro.form.MainFormInfo;
 import ngo.drc.micro.mapper.MainFormResponseMapper;
 import ngo.drc.micro.mapper.MainFormSavingMapper;
@@ -45,22 +45,23 @@ public class MainFormServiceImpl implements MainFormService {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
-                mainFormResponseMapper.toDto(mainForm));
+                mainFormResponseMapper.toDto(mainForm), mainFormInfoService.getStatuses());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public GenericPageFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable) {
+    public GenericFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable) {
         Page<MainFormResponseDto> allMainForms = mainFormRepository.findAllNotDeleted(pageable).map(mainFormResponseMapper::toDto);
-        return new GenericPageFormResponse<>(mainFormInfoService.getMainFormInfo(),
-                pageMapper.toPageResponse(allMainForms));
+        return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
+                pageMapper.toPageResponse(allMainForms), mainFormInfoService.getStatuses());
     }
 
     @Override
     @Transactional
     public MainFormResponseDto saveMicroMainForm(MainFormSavingDto mainFormSavingDto) {
-        MainForm entity = mainFormSavingMapper.toEntity(mainFormSavingDto);
-        return mainFormResponseMapper.toDto(mainFormRepository.save(entity));
+        MainForm mainForm = mainFormSavingMapper.toEntity(mainFormSavingDto);
+        mainForm.setStatus(MicroStatus.FORM_MICRO_NEW);
+        return mainFormResponseMapper.toDto(mainFormRepository.save(mainForm));
     }
 
     @Transactional

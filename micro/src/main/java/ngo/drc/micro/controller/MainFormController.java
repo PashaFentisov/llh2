@@ -4,7 +4,6 @@ package ngo.drc.micro.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
-import ngo.drc.core.dto.GenericPageFormResponse;
 import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.core.exception.BigSizeException;
 import ngo.drc.core.exception.EntityValidationException;
@@ -12,8 +11,8 @@ import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;
 import ngo.drc.micro.form.MainFormInfo;
-import ngo.drc.micro.service.MainFormInfoService;
 import ngo.drc.micro.service.MainFormService;
+import ngo.drc.micro.service.impl.MainFormInfoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -29,11 +28,11 @@ import java.util.UUID;
 @RequestMapping("api/v1/micro/main-form")
 public class MainFormController {
     private final MainFormService mainFormService;
-    private final MainFormInfoService mainFormInfoService;
+    private final MainFormInfoServiceImpl mainFormInfoService;
     private final Logger logger = LoggerFactory.getLogger(MainFormController.class);
 
     @GetMapping
-    public ResponseEntity<GenericPageFormResponse<MainFormInfo,
+    public ResponseEntity<GenericFormResponse<MainFormInfo,
             PageResponse<MainFormResponseDto>>> getMainForms
             (@RequestParam(required = false, defaultValue = "0") int page,
              @RequestParam(required = false, defaultValue = "10") int size,
@@ -42,7 +41,7 @@ public class MainFormController {
         if (size > 100) {
             throw new BigSizeException("You can get maximum 100 actors at one time");
         }
-        GenericPageFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> allMainForms = mainFormService.
+        GenericFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> allMainForms = mainFormService.
                 getAllMainForms(PageRequest.of(page, size, Sort.by(sort)));
         return ResponseEntity.ok(allMainForms);
     }

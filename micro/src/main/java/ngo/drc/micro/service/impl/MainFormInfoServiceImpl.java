@@ -1,19 +1,19 @@
-package ngo.drc.micro.service;
+package ngo.drc.micro.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import ngo.drc.locale.LocaleContextHolder;
 import ngo.drc.micro.dto.*;
+import ngo.drc.micro.enumeration.MicroStatus;
 import ngo.drc.micro.form.MainFormInfo;
+import ngo.drc.micro.service.MainFormInfoService;
 import ngo.drc.micro.util.MainFormInfoUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class MainFormInfoService {
+public class MainFormInfoServiceImpl implements MainFormInfoService {
     private ResourceBundle exampleBundle;
 
 
@@ -34,7 +34,14 @@ public class MainFormInfoService {
                 .build();
     }
 
-    public <T extends MicroMainFormPart> T buildMainFormComponent(T componentObj, String keyStartsWith, String label, String isMultiple) {
+    @Override
+    public Map<String, String> getStatuses() {
+        Map<String, String> map = new HashMap<>();
+        Arrays.stream(MicroStatus.values()).forEach(status -> map.put(status.toString(), status.getName()));
+        return map;
+    }
+
+    private <T extends MicroMainFormPart> T buildMainFormComponent(T componentObj, String keyStartsWith, String label, String isMultiple) {
         List<BundleRow> list = exampleBundle.keySet()
                 .stream()
                 .filter(key -> key.startsWith(keyStartsWith))

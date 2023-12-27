@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ngo.drc.micro.enumeration.MicroStatus;
 import org.hibernate.annotations.BatchSize;
 
 import java.time.OffsetDateTime;
@@ -35,6 +36,9 @@ public class MainForm {
 
     @Embedded
     private BusinessInfo businessInfo;
+
+    @Enumerated(EnumType.STRING)
+    private MicroStatus status;
 
     private boolean isVpo;
     private Long vpoReferenceNumber;
