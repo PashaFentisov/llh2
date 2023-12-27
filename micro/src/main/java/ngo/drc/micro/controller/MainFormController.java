@@ -80,6 +80,12 @@ public class MainFormController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/revert-to-last-version/{id}")
+    public ResponseEntity<MainFormResponseDto> revertMainFormToLastVersion(@PathVariable UUID id) {
+        MainFormResponseDto mainFormResponseDto = mainFormService.revertMainFormToLastVersion(id);
+        return ResponseEntity.ok(mainFormResponseDto);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<MainFormResponseDto> updateMicroMainForm(@PathVariable UUID id,
                                                                    @RequestBody @Valid MainFormUpdateDto mainFormUpdateDto,

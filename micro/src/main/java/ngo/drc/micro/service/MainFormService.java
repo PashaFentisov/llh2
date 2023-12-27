@@ -25,4 +25,6 @@ public interface MainFormService {
     GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id);
 
     GenericPageFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable);
+
+    MainFormResponseDto revertMainFormToLastVersion(UUID id);
 }

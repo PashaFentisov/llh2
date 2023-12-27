@@ -8,9 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -93,5 +95,36 @@ public class MainForm {
         this.tookPartInSuchPrograms = mainForm.isTookPartInSuchPrograms();
         this.aboutProgram = mainForm.getAboutProgram();
         this.isDeleted = mainForm.isDeleted();
+    }
+
+    public void revertToLastVersion(MainFormLastVersion mainFormLastVersion) {
+        this.contactInfo = mainFormLastVersion.getContactInfo();
+        this.documentInfo = mainFormLastVersion.getDocumentInfo();
+        this.addressInfo = mainFormLastVersion.getAddressInfo();
+        this.businessInfo = mainFormLastVersion.getBusinessInfo();
+        this.isVpo = mainFormLastVersion.isVpo();
+        this.vpoReferenceNumber = mainFormLastVersion.getVpoReferenceNumber();
+        this.vpoReferenceIssuedDate = mainFormLastVersion.getVpoReferenceIssuedDate();
+        this.grandFunding = mainFormLastVersion.getGrandFunding();
+        this.conflictDamages = Arrays.stream(mainFormLastVersion.getConflictDamages().split("\\|"))
+                .filter(conflictDamage -> !conflictDamage.isEmpty())
+                .collect(Collectors.toSet());
+        this.homeLeavingReasons = Arrays.stream(mainFormLastVersion.getHomeLeavingReasons().split("\\|"))
+                .filter(homeLeavingReason -> !homeLeavingReason.isEmpty())
+                .collect(Collectors.toSet());
+        this.peopleLeavingWithYou = mainFormLastVersion.getPeopleLeavingWithYou();
+        this.threeMonthMovingPlans = mainFormLastVersion.getThreeMonthMovingPlans();
+        this.familyAverageMonthlyIncome = mainFormLastVersion.getFamilyAverageMonthlyIncome();
+        this.familyAverageMonthlyIncomeBeforeConflict = mainFormLastVersion.getFamilyAverageMonthlyIncomeBeforeConflict();
+        this.vulnerabilities = Arrays.stream(mainFormLastVersion.getVulnerabilities().split("\\|"))
+                .filter(vulnerability -> !vulnerability.isEmpty())
+                .collect(Collectors.toSet());
+        this.selfSufficiency = mainFormLastVersion.getSelfSufficiency();
+        this.negativeSurvivalStrategies = Arrays.stream(mainFormLastVersion.getNegativeSurvivalStrategies().split("\\|"))
+                .filter(negativeSurvivalStrategy -> !negativeSurvivalStrategy.isEmpty())
+                .collect(Collectors.toSet());
+        this.tookPartInSuchPrograms = mainFormLastVersion.isTookPartInSuchPrograms();
+        this.aboutProgram = mainFormLastVersion.getAboutProgram();
+        this.isDeleted = mainFormLastVersion.isDeleted();
     }
 }
