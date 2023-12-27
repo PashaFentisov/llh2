@@ -5,9 +5,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
 import ngo.drc.core.dto.GenericPageFormResponse;
-import ngo.drc.endpoint.PageResponse;
-import ngo.drc.exception.BigSizeException;
-import ngo.drc.exception.EntityValidationException;
+import ngo.drc.core.endpoint.PageResponse;
+import ngo.drc.core.exception.BigSizeException;
+import ngo.drc.core.exception.EntityValidationException;
 import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;
@@ -21,6 +21,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/micro/main-form")
@@ -50,7 +53,7 @@ public class MainFormController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GenericFormResponse<MainFormInfo, MainFormResponseDto>> getMainForm(@PathVariable Long id) {
+    public ResponseEntity<GenericFormResponse<MainFormInfo, MainFormResponseDto>> getMainForm(@PathVariable UUID id) {
         return ResponseEntity.ok(mainFormService.getMainForm(id));
     }
 
@@ -66,19 +69,25 @@ public class MainFormController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteMainForm(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteMainForm(@PathVariable UUID id) {
         mainFormService.deleteMicroMainForm(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/set-as-not-deleted/{id}")
-    public ResponseEntity<Object> setAsNotDeletedMainForm(@PathVariable Long id) {
+    public ResponseEntity<Object> setAsNotDeletedMainForm(@PathVariable UUID id) {
         mainFormService.setAsNotDeletedMainForm(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/revert-to-last-version/{id}")
+    public ResponseEntity<MainFormResponseDto> revertMainFormToLastVersion(@PathVariable UUID id) {
+        MainFormResponseDto mainFormResponseDto = mainFormService.revertMainFormToLastVersion(id);
+        return ResponseEntity.ok(mainFormResponseDto);
+    }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<MainFormResponseDto> updateMicroMainForm(@PathVariable Long id,
+    public ResponseEntity<MainFormResponseDto> updateMicroMainForm(@PathVariable UUID id,
                                                                    @RequestBody @Valid MainFormUpdateDto mainFormUpdateDto,
                                                                    Errors errors) {
         if (errors.hasErrors()) {

@@ -1,6 +1,6 @@
 CREATE TABLE district
 (
-    id          BIGSERIAL PRIMARY KEY,
+    id uuid PRIMARY KEY,
     code        VARCHAR(255),
     region_code VARCHAR(255),
     name_en     VARCHAR(400),

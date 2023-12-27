@@ -1,6 +1,6 @@
 create table negative_survival_strategies
 (
-    main_form_id                 bigint not null,
+    main_form_id uuid not null,
     negative_survival_strategies varchar(255)
 );
 

@@ -1,0 +1,11 @@
+spring:
+  flyway:
+    table: app_schema_version
+    locations: classpath:db/migration
+    enabled: true
+
+
+jwt:
+  signing: ${JWT_SIGNING:secret}
+  expiration: 6000000
+

@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface DistrictRepository extends JpaRepository<District, Long> {
+public interface DistrictRepository extends JpaRepository<District, UUID> {
 
     @Query("SELECT new ngo.drc.address.dto.DistrictResponseDto(d.id, d.code, d.regionCode, d.nameEn) FROM District d where d.regionCode = :regionCode")
     List<DistrictResponseDto> findAllEnByRegionCode(@Param("regionCode") String regionCode);

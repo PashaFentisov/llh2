@@ -1,6 +1,6 @@
 create table home_leaving_reasons
 (
-    main_form_id         bigint not null,
+    main_form_id uuid not null,
     home_leaving_reasons varchar(255)
 );
 

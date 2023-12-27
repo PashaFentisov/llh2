@@ -1,6 +1,6 @@
 create table vulnerabilities
 (
-    main_form_id    bigint not null,
+    main_form_id uuid not null,
     vulnerabilities varchar(255)
 );
 

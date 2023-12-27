@@ -4,8 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
 import ngo.drc.core.dto.GenericPageFormResponse;
-import ngo.drc.endpoint.PageResponse;
-import ngo.drc.endpoint.mapper.PageMapper;
+import ngo.drc.core.endpoint.PageResponse;
+import ngo.drc.core.endpoint.mapper.PageMapper;
 import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +36,14 @@ public class MainFormServiceImpl implements MainFormService {
     private final PageMapper pageMapper;
     private final MainFormLastVersionRepository mainFormLastVersionRepository;
 
-    private static final String ERROR_MESSAGE = "MainForm with id %s doesn't exist";
+    private static final String MAIN_FORM_ERROR_MESSAGE = "MainForm with id %s doesn't exist";
 
 
     @Override
     @Transactional(readOnly = true)
-    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(Long id) {
+    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
                 mainFormResponseMapper.toDto(mainForm));
     }
@@ -64,24 +65,25 @@ public class MainFormServiceImpl implements MainFormService {
 
     @Transactional
     @Override
-    public void deleteMicroMainForm(Long id) {
+    public void deleteMicroMainForm(UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         mainForm.setDeleted(true);
     }
 
     @Override
     @Transactional
-    public void setAsNotDeletedMainForm(Long id) {
+    public void setAsNotDeletedMainForm(UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         mainForm.setDeleted(false);
     }
 
     @Transactional
-    public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, Long id) {
+    @Override
+    public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         MainForm mainFormBeforeUpdate = new MainForm(mainForm);
         Optional.ofNullable(mainFormUpdateDto.getAboutProgram()).ifPresent(mainForm::setAboutProgram);
         Optional.ofNullable(mainFormUpdateDto.getConflictDamages()).ifPresent(mainForm::setConflictDamages);
@@ -158,5 +160,16 @@ public class MainFormServiceImpl implements MainFormService {
         MainFormLastVersion mainFormLastVersion = optionalMainFormLastVersion.orElseThrow(EntityNotFoundException::new);
         mainFormLastVersion.setMainForm(mainForm);
         mainFormLastVersionRepository.save(mainFormLastVersion);
+    }
+
+    @Override
+    @Transactional
+    public MainFormResponseDto revertMainFormToLastVersion(UUID id) {
+        MainFormLastVersion mainFormLastVersion = mainFormLastVersionRepository.findByMainFormId(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("MainForm with id %s doesn't have last version", id)));
+        MainForm mainForm = mainFormRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
+        mainForm.revertToLastVersion(mainFormLastVersion);
+        return mainFormResponseMapper.toDto(mainForm);
     }
 }
