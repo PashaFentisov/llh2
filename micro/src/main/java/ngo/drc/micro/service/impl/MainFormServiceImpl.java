@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class MainFormServiceImpl implements MainFormService {
 
     @Override
     @Transactional(readOnly = true)
-    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(Long id) {
+    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
         return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
@@ -64,7 +65,7 @@ public class MainFormServiceImpl implements MainFormService {
 
     @Transactional
     @Override
-    public void deleteMicroMainForm(Long id) {
+    public void deleteMicroMainForm(UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
         mainForm.setDeleted(true);
@@ -72,14 +73,14 @@ public class MainFormServiceImpl implements MainFormService {
 
     @Override
     @Transactional
-    public void setAsNotDeletedMainForm(Long id) {
+    public void setAsNotDeletedMainForm(UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
         mainForm.setDeleted(false);
     }
 
     @Transactional
-    public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, Long id) {
+    public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id) {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_MESSAGE, id)));
         MainForm mainFormBeforeUpdate = new MainForm(mainForm);

@@ -1,6 +1,6 @@
 CREATE TABLE hromada
 (
-    id            BIGSERIAL PRIMARY KEY,
+    id uuid PRIMARY KEY,
     code          VARCHAR(255),
     district_code VARCHAR(255),
     name_en       VARCHAR(255),

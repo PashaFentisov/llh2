@@ -1,6 +1,6 @@
 create table conflict_damages
 (
-    main_form_id         bigint not null,
+    main_form_id uuid not null,
     conflict_damages varchar(255)
 );
 

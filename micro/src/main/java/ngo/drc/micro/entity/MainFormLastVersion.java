@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -15,10 +16,10 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class MainFormLastVersion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    private Long mainFormId;
+    private UUID mainFormId;
 
     @Embedded
     private ContactInfo contactInfo;

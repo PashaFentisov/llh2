@@ -1,6 +1,6 @@
 CREATE TABLE city
 (
-    id           BIGSERIAL PRIMARY KEY,
+    id uuid PRIMARY KEY,
     code         VARCHAR(255),
     hromada_code VARCHAR(255),
     name_en      VARCHAR(255),

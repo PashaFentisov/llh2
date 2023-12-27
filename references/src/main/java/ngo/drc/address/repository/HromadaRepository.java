@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface HromadaRepository extends JpaRepository<Hromada, Long> {
+public interface HromadaRepository extends JpaRepository<Hromada, UUID> {
     @Query("SELECT new ngo.drc.address.dto.HromadaResponseDto(h.id, h.code, h.districtCode, h.nameEn) FROM Hromada h where h.districtCode = :districtCode")
     List<HromadaResponseDto> findAllEnByDistrictCode(@Param("districtCode") String districtCode);
 

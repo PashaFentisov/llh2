@@ -10,6 +10,7 @@ import org.hibernate.annotations.BatchSize;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,8 +19,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class MainForm {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Embedded
     private ContactInfo contactInfo;

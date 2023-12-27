@@ -9,18 +9,20 @@ import ngo.drc.micro.dto.MainFormUpdateDto;
 import ngo.drc.micro.form.MainFormInfo;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface MainFormService {
 
     MainFormResponseDto saveMicroMainForm(MainFormSavingDto mainFormSavingDto);
 
 
-    void deleteMicroMainForm(Long id);
+    void deleteMicroMainForm(UUID id);
 
-    void setAsNotDeletedMainForm(Long id);
+    void setAsNotDeletedMainForm(UUID id);
 
-    MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, Long id);
+    MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id);
 
-    GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(Long id);
+    GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id);
 
     GenericPageFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable);
 }
