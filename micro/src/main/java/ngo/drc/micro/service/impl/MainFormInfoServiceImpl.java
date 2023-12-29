@@ -1,9 +1,11 @@
 package ngo.drc.micro.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import ngo.drc.core.security.entity.Role;
 import ngo.drc.locale.LocaleContextHolder;
 import ngo.drc.micro.dto.*;
 import ngo.drc.micro.enumeration.MicroStatus;
+import ngo.drc.micro.enumeration.MicroStatusUser;
 import ngo.drc.micro.form.MainFormInfo;
 import ngo.drc.micro.service.MainFormInfoService;
 import ngo.drc.micro.util.MainFormInfoUtil;
@@ -31,14 +33,30 @@ public class MainFormInfoServiceImpl implements MainFormInfoService {
                 .selfSufficiency(buildMainFormComponent(new SelfSufficiency(), MainFormInfoUtil.SELF_SUFFICIENCY_KEY, MainFormInfoUtil.SELF_SUFFICIENCY_LABEL, MainFormInfoUtil.SELF_SUFFICIENCY_IS_MULTIPLE))
                 .streetType(buildMainFormComponent(new StreetType(), MainFormInfoUtil.STREET_TYPE_KEY, MainFormInfoUtil.STREET_TYPE_LABEL, MainFormInfoUtil.STREET_TYPE_IS_MULTIPLE))
                 .vulnerability(buildMainFormComponent(new Vulnerability(), MainFormInfoUtil.VULNERABILITY_KEY, MainFormInfoUtil.VULNERABILITY_LABEL, MainFormInfoUtil.VULNERABILITY_IS_MULTIPLE))
+                .statuses(getAllStatuses())
                 .build();
     }
 
     @Override
-    public Map<String, String> getStatuses() {
+    public Map<String, String> getAllStatuses() {
         Map<String, String> map = new HashMap<>();
         Arrays.stream(MicroStatus.values()).forEach(status -> map.put(status.toString(), status.getName()));
         return map;
+    }
+
+    @Override
+    public Map<String, String> getNextStatusesByCurrentStatus(MicroStatus currentStatus, Role role) {
+        switch (role.getName()) {
+            case "ROLE_ADMIN":
+                return getAllStatuses();
+            case "ROLE_OPERATOR":
+                Map<String, String> map = new HashMap<>();
+                MicroStatusUser.getNextStatuses(currentStatus)
+                        .forEach(status -> map.put(status.toString(), status.getName()));
+                return map; //todo refactor
+            default:
+                throw new IllegalArgumentException("Unsupported role: " + role.getName());
+        }
     }
 
     private <T extends MicroMainFormPart> T buildMainFormComponent(T componentObj, String keyStartsWith, String label, String isMultiple) {

@@ -131,4 +131,5 @@ public class MainForm {
         this.aboutProgram = mainFormLastVersion.getAboutProgram();
         this.isDeleted = mainFormLastVersion.isDeleted();
     }
+
 }

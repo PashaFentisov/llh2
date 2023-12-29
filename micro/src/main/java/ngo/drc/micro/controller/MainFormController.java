@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,8 +54,9 @@ public class MainFormController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GenericFormResponse<MainFormInfo, MainFormResponseDto>> getMainForm(@PathVariable UUID id) {
-        return ResponseEntity.ok(mainFormService.getMainForm(id));
+    public ResponseEntity<GenericFormResponse<MainFormInfo, MainFormResponseDto>> getMainForm
+            (@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(mainFormService.getMainForm(id, userDetails.getUsername())); //todo return only next statuses for operators and all for admin
     }
 
     @PostMapping

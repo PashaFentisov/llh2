@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,5 +12,4 @@ import java.util.Map;
 public class GenericFormResponse<T, E> {
     private T formReferenceInfo;
     private E form;
-    private Map<String, String> statuses;
 }

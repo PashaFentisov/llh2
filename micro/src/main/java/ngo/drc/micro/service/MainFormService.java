@@ -20,7 +20,7 @@ public interface MainFormService {
 
     MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id);
 
-    GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id);
+    GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id, String email);
 
     GenericFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable);
 

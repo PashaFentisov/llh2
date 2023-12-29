@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
 import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.core.endpoint.mapper.PageMapper;
+import ngo.drc.core.security.entity.User;
+import ngo.drc.core.security.repository.UserRepository;
 import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;
@@ -35,25 +37,32 @@ public class MainFormServiceImpl implements MainFormService {
     private final MainFormInfoService mainFormInfoService;
     private final PageMapper pageMapper;
     private final MainFormLastVersionRepository mainFormLastVersionRepository;
+    private final UserRepository userRepository;
 
     private static final String MAIN_FORM_ERROR_MESSAGE = "MainForm with id %s doesn't exist";
 
 
     @Override
     @Transactional(readOnly = true)
-    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id) {
+    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id, String email) {
+        User user = userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("User with email %s doesn't exist", email)));
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
-        return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
-                mainFormResponseMapper.toDto(mainForm), mainFormInfoService.getStatuses());
+        MainFormInfo mainFormInfo = mainFormInfoService.getMainFormInfo();
+        mainFormInfo.setStatuses(mainFormInfoService.getNextStatusesByCurrentStatus(mainForm.getStatus(), user.getRole())); //todo чи треба повертати також теперішній
+        return new GenericFormResponse<>(mainFormInfo,
+                mainFormResponseMapper.toDto(mainForm));
     }
 
     @Override
     @Transactional(readOnly = true)
     public GenericFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable) {
         Page<MainFormResponseDto> allMainForms = mainFormRepository.findAllNotDeleted(pageable).map(mainFormResponseMapper::toDto);
-        return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
-                pageMapper.toPageResponse(allMainForms), mainFormInfoService.getStatuses());
+        MainFormInfo mainFormInfo = mainFormInfoService.getMainFormInfo();
+        mainFormInfo.setStatuses(mainFormInfoService.getAllStatuses());
+        return new GenericFormResponse<>(mainFormInfo,
+                pageMapper.toPageResponse(allMainForms));
     }
 
     @Override
@@ -83,6 +92,9 @@ public class MainFormServiceImpl implements MainFormService {
     @Transactional
     @Override
     public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id) {
+        //todo якщо статус reject і немає права на зміну reject то кидаєм exception
+        //todo якщо статус reject і є право на зміну reject то змінюємо статус на той який прийшов
+        //todo перевіряти чи не перескакуєм на інші статуси
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         MainForm mainFormBeforeUpdate = new MainForm(mainForm);
