@@ -12,6 +12,7 @@ import ngo.drc.micro.util.MainFormInfoUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,24 +40,19 @@ public class MainFormInfoServiceImpl implements MainFormInfoService {
 
     @Override
     public Map<String, String> getAllStatuses() {
-        Map<String, String> map = new HashMap<>();
-        Arrays.stream(MicroStatus.values()).forEach(status -> map.put(status.toString(), status.getName()));
-        return map;
+        return Arrays.stream(MicroStatus.values())
+                .collect(Collectors.toMap(Enum::toString, MicroStatus::getName));
     }
 
     @Override
     public Map<String, String> getNextStatusesByCurrentStatus(MicroStatus currentStatus, Role role) {
-        switch (role.getName()) {
-            case "ROLE_ADMIN":
-                return getAllStatuses();
-            case "ROLE_OPERATOR":
-                Map<String, String> map = new HashMap<>();
-                MicroStatusUser.getNextStatuses(currentStatus)
-                        .forEach(status -> map.put(status.toString(), status.getName()));
-                return map; //todo refactor
-            default:
-                throw new IllegalArgumentException("Unsupported role: " + role.getName());
-        }
+        return switch (role.getName()) {
+            case "ROLE_ADMIN" -> getAllStatuses();
+            case "ROLE_OPERATOR" -> MicroStatusUser.getNextStatuses(currentStatus)
+                    .stream()
+                    .collect(Collectors.toMap(Enum::toString, MicroStatusUser::getName));
+            default -> throw new IllegalArgumentException("Unsupported role: " + role.getName());
+        };
     }
 
     private <T extends MicroMainFormPart> T buildMainFormComponent(T componentObj, String keyStartsWith, String label, String isMultiple) {

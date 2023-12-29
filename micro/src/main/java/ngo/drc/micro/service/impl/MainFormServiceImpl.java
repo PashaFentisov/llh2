@@ -50,7 +50,7 @@ public class MainFormServiceImpl implements MainFormService {
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
         MainFormInfo mainFormInfo = mainFormInfoService.getMainFormInfo();
-        mainFormInfo.setStatuses(mainFormInfoService.getNextStatusesByCurrentStatus(mainForm.getStatus(), user.getRole())); //todo чи треба повертати також теперішній
+        mainFormInfo.setStatuses(mainFormInfoService.getNextStatusesByCurrentStatus(mainForm.getStatus(), user.getRole()));
         return new GenericFormResponse<>(mainFormInfo,
                 mainFormResponseMapper.toDto(mainForm));
     }
