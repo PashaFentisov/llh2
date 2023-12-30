@@ -18,7 +18,7 @@ public interface MainFormService {
 
     void setAsNotDeletedMainForm(UUID id);
 
-    MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id);
+    MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id, String email);
 
     GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id, String email);
 

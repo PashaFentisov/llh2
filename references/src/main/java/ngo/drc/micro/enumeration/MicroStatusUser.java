@@ -25,7 +25,7 @@ public enum MicroStatusUser {
     FORM_MICRO_RECEIPTS_SUBMITTED("Receipts submitted"),
     FORM_MICRO_MONITORING("Monitoring"),
     FORM_MICRO_MONITORING_COMPLETED("Monitoring completed");
-    private String name;
+    private final String name;
 
     public static Set<MicroStatusUser> getNextStatuses(MicroStatus status) {
         switch (status) {
@@ -60,22 +60,22 @@ public enum MicroStatusUser {
                 return Set.of(MicroStatusUser.FORM_MICRO_DOCUMENTS, MicroStatusUser.FORM_MICRO_WAITING_SIGNING);
             }
             case FORM_MICRO_DOCUMENTS -> {
-                return Set.of(MicroStatusUser.FORM_MICRO_WAITING_SIGNING, MicroStatusUser.FORM_MICRO_SIGNED);
+                return Set.of(MicroStatusUser.FORM_MICRO_WAITING_SIGNING);
             }
             case FORM_MICRO_WAITING_SIGNING -> {
-                return Set.of(MicroStatusUser.FORM_MICRO_SIGNED, MicroStatusUser.FORM_MICRO_FUNDED);
+                return Set.of(MicroStatusUser.FORM_MICRO_SIGNED);
             }
             case FORM_MICRO_SIGNED -> {
-                return Set.of(MicroStatusUser.FORM_MICRO_FUNDED, MicroStatusUser.FORM_MICRO_WAITING_RECEIPTS);
+                return Set.of(MicroStatusUser.FORM_MICRO_FUNDED);
             }
             case FORM_MICRO_FUNDED -> {
-                return Set.of(MicroStatusUser.FORM_MICRO_WAITING_RECEIPTS, MicroStatusUser.FORM_MICRO_RECEIPTS_SUBMITTED);
+                return Set.of(MicroStatusUser.FORM_MICRO_WAITING_RECEIPTS);
             }
             case FORM_MICRO_WAITING_RECEIPTS -> {
-                return Set.of(MicroStatusUser.FORM_MICRO_RECEIPTS_SUBMITTED, MicroStatusUser.FORM_MICRO_MONITORING);
+                return Set.of(MicroStatusUser.FORM_MICRO_RECEIPTS_SUBMITTED);
             }
             case FORM_MICRO_RECEIPTS_SUBMITTED -> {
-                return Set.of(MicroStatusUser.FORM_MICRO_MONITORING, MicroStatusUser.FORM_MICRO_MONITORING_COMPLETED);
+                return Set.of(MicroStatusUser.FORM_MICRO_MONITORING);
             }
             case FORM_MICRO_MONITORING -> {
                 return Set.of(MicroStatusUser.FORM_MICRO_MONITORING_COMPLETED);

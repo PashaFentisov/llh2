@@ -56,7 +56,7 @@ public class MainFormController {
     @GetMapping("/{id}")
     public ResponseEntity<GenericFormResponse<MainFormInfo, MainFormResponseDto>> getMainForm
             (@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(mainFormService.getMainForm(id, userDetails.getUsername())); //todo return only next statuses for operators and all for admin
+        return ResponseEntity.ok(mainFormService.getMainForm(id, userDetails.getUsername()));
     }
 
     @PostMapping
@@ -91,12 +91,14 @@ public class MainFormController {
     @PatchMapping("/{id}")
     public ResponseEntity<MainFormResponseDto> updateMicroMainForm(@PathVariable UUID id,
                                                                    @RequestBody @Valid MainFormUpdateDto mainFormUpdateDto,
-                                                                   Errors errors) {
+                                                                   Errors errors,
+                                                                   @AuthenticationPrincipal UserDetails userDetails) {
         if (errors.hasErrors()) {
             errors.getFieldErrors().forEach(er -> logger.error(er.getDefaultMessage()));
             throw new EntityValidationException("Validation failed", errors);
         }
-        MainFormResponseDto mainFormResponseDto = mainFormService.updateMicroMainForm(mainFormUpdateDto, id);
+        MainFormResponseDto mainFormResponseDto = mainFormService
+                .updateMicroMainForm(mainFormUpdateDto, id, userDetails.getUsername());
         return ResponseEntity.ok(mainFormResponseDto);
     }
 }
