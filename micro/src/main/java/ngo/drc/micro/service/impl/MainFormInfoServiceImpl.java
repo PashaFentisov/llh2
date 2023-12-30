@@ -5,7 +5,7 @@ import ngo.drc.core.security.entity.Role;
 import ngo.drc.locale.LocaleContextHolder;
 import ngo.drc.micro.dto.*;
 import ngo.drc.micro.enumeration.MicroStatus;
-import ngo.drc.micro.enumeration.MicroStatusUser;
+import ngo.drc.micro.enumeration.MicroStatusOperator;
 import ngo.drc.micro.form.MainFormInfo;
 import ngo.drc.micro.service.MainFormInfoService;
 import ngo.drc.micro.util.MainFormInfoUtil;
@@ -48,9 +48,9 @@ public class MainFormInfoServiceImpl implements MainFormInfoService {
     public Map<String, String> getNextStatusesByCurrentStatus(MicroStatus currentStatus, Role role) {
         return switch (role.getName()) {
             case "ROLE_ADMIN" -> getAllStatuses();
-            case "ROLE_OPERATOR" -> MicroStatusUser.getNextStatuses(currentStatus)
+            case "ROLE_OPERATOR" -> MicroStatusOperator.getNextStatuses(currentStatus)
                     .stream()
-                    .collect(Collectors.toMap(Enum::toString, MicroStatusUser::getName));
+                    .collect(Collectors.toMap(Enum::toString, MicroStatus::getName));
             default -> throw new IllegalArgumentException("Unsupported role: " + role.getName());
         };
     }
