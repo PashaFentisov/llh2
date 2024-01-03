@@ -1,19 +1,22 @@
-package ngo.drc.micro.service;
+package ngo.drc.micro.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import ngo.drc.core.security.entity.Role;
 import ngo.drc.locale.LocaleContextHolder;
 import ngo.drc.micro.dto.*;
+import ngo.drc.micro.enumeration.MicroStatus;
+import ngo.drc.micro.enumeration.MicroStatusOperator;
 import ngo.drc.micro.form.MainFormInfo;
+import ngo.drc.micro.service.MainFormInfoService;
 import ngo.drc.micro.util.MainFormInfoUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MainFormInfoService {
+public class MainFormInfoServiceImpl implements MainFormInfoService {
     private ResourceBundle exampleBundle;
 
 
@@ -31,10 +34,28 @@ public class MainFormInfoService {
                 .selfSufficiency(buildMainFormComponent(new SelfSufficiency(), MainFormInfoUtil.SELF_SUFFICIENCY_KEY, MainFormInfoUtil.SELF_SUFFICIENCY_LABEL, MainFormInfoUtil.SELF_SUFFICIENCY_IS_MULTIPLE))
                 .streetType(buildMainFormComponent(new StreetType(), MainFormInfoUtil.STREET_TYPE_KEY, MainFormInfoUtil.STREET_TYPE_LABEL, MainFormInfoUtil.STREET_TYPE_IS_MULTIPLE))
                 .vulnerability(buildMainFormComponent(new Vulnerability(), MainFormInfoUtil.VULNERABILITY_KEY, MainFormInfoUtil.VULNERABILITY_LABEL, MainFormInfoUtil.VULNERABILITY_IS_MULTIPLE))
+                .statuses(getAllStatuses())
                 .build();
     }
 
-    public <T extends MicroMainFormPart> T buildMainFormComponent(T componentObj, String keyStartsWith, String label, String isMultiple) {
+    @Override
+    public Map<String, String> getAllStatuses() {
+        return Arrays.stream(MicroStatus.values())
+                .collect(Collectors.toMap(Enum::toString, MicroStatus::getName));
+    }
+
+    @Override
+    public Map<String, String> getNextStatusesByCurrentStatus(MicroStatus currentStatus, Role role) {
+        return switch (role.getName()) {
+            case "ROLE_ADMIN" -> getAllStatuses();
+            case "ROLE_OPERATOR" -> MicroStatusOperator.getNextStatuses(currentStatus)
+                    .stream()
+                    .collect(Collectors.toMap(Enum::toString, MicroStatus::getName));
+            default -> throw new IllegalArgumentException("Unsupported role: " + role.getName());
+        };
+    }
+
+    private <T extends MicroMainFormPart> T buildMainFormComponent(T componentObj, String keyStartsWith, String label, String isMultiple) {
         List<BundleRow> list = exampleBundle.keySet()
                 .stream()
                 .filter(key -> key.startsWith(keyStartsWith))

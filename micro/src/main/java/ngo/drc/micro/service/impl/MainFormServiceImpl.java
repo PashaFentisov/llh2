@@ -3,14 +3,18 @@ package ngo.drc.micro.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
-import ngo.drc.core.dto.GenericPageFormResponse;
 import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.core.endpoint.mapper.PageMapper;
+import ngo.drc.core.exception.PermissionException;
+import ngo.drc.core.exception.StatusException;
+import ngo.drc.core.security.entity.User;
+import ngo.drc.core.security.repository.UserRepository;
 import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
 import ngo.drc.micro.dto.MainFormUpdateDto;
 import ngo.drc.micro.entity.MainForm;
 import ngo.drc.micro.entity.MainFormLastVersion;
+import ngo.drc.micro.enumeration.MicroStatus;
 import ngo.drc.micro.form.MainFormInfo;
 import ngo.drc.micro.mapper.MainFormResponseMapper;
 import ngo.drc.micro.mapper.MainFormSavingMapper;
@@ -35,32 +39,43 @@ public class MainFormServiceImpl implements MainFormService {
     private final MainFormInfoService mainFormInfoService;
     private final PageMapper pageMapper;
     private final MainFormLastVersionRepository mainFormLastVersionRepository;
+    private final UserRepository userRepository;
 
     private static final String MAIN_FORM_ERROR_MESSAGE = "MainForm with id %s doesn't exist";
+    private static final String USER_ERROR_MESSAGE = "User with email %s doesn't exist";
 
 
     @Override
     @Transactional(readOnly = true)
-    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id) {
+    public GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id, String email) {
+        User user = userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(USER_ERROR_MESSAGE, email)));
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
-        return new GenericFormResponse<>(mainFormInfoService.getMainFormInfo(),
+        MainFormInfo mainFormInfo = mainFormInfoService.getMainFormInfo();
+        mainFormInfo.setStatuses(mainFormInfoService.getNextStatusesByCurrentStatus(mainForm.getStatus(), user.getRole()));
+        //коли берем форму якщо роль адмін то повертаємо всі статуси, якщо оператор то тільки ті які йдуть після поточного
+        return new GenericFormResponse<>(mainFormInfo,
                 mainFormResponseMapper.toDto(mainForm));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public GenericPageFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable) {
+    public GenericFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable) {
         Page<MainFormResponseDto> allMainForms = mainFormRepository.findAllNotDeleted(pageable).map(mainFormResponseMapper::toDto);
-        return new GenericPageFormResponse<>(mainFormInfoService.getMainFormInfo(),
+        MainFormInfo mainFormInfo = mainFormInfoService.getMainFormInfo();
+        mainFormInfo.setStatuses(mainFormInfoService.getAllStatuses());
+        //коли берем всі форми то повертаємо всі статуси
+        return new GenericFormResponse<>(mainFormInfo,
                 pageMapper.toPageResponse(allMainForms));
     }
 
     @Override
     @Transactional
     public MainFormResponseDto saveMicroMainForm(MainFormSavingDto mainFormSavingDto) {
-        MainForm entity = mainFormSavingMapper.toEntity(mainFormSavingDto);
-        return mainFormResponseMapper.toDto(mainFormRepository.save(entity));
+        MainForm mainForm = mainFormSavingMapper.toEntity(mainFormSavingDto);
+        mainForm.setStatus(MicroStatus.FORM_MICRO_NEW);
+        return mainFormResponseMapper.toDto(mainFormRepository.save(mainForm));
     }
 
     @Transactional
@@ -81,9 +96,29 @@ public class MainFormServiceImpl implements MainFormService {
 
     @Transactional
     @Override
-    public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id) {
+    public MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id, String email) {
+        User user = userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(USER_ERROR_MESSAGE, email)));
+        MicroStatus status = MicroStatus.valueOf(mainFormUpdateDto.getStatus());
         MainForm mainForm = mainFormRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(MAIN_FORM_ERROR_MESSAGE, id)));
+
+        if (mainFormUpdateDto.getStatus() != null) {
+            if (mainForm.getStatus().getName().contains("Reject") && user.getRole().getName().equals("ROLE_OPERATOR")) {
+                throw new PermissionException("You don't have permission to change status");
+                //якщо поточний статус reject і роль оператор то не дозволяємо змінювати статус
+            }
+            if (user.getRole().getName().equals("ROLE_ADMIN")) {
+                if (MicroStatus.getStatusesAfter(mainForm.getStatus()).contains(status) || status == MicroStatus.getPreviousStatus(mainForm.getStatus())) {
+                    mainForm.setStatus(status);
+                    //якщо роль admin і прийшов будь який статус який стоїть після поточного або той який перед поточним то міняємо
+                } else {
+                    throw new StatusException(String.format("You can't change status from %s to %s", mainForm.getStatus(), status));
+                }
+            }
+            mainForm.setStatus(status); //якщо роль не адмін і поточний статус не reject то міняємо статус на той який прийшов
+        }
+
         MainForm mainFormBeforeUpdate = new MainForm(mainForm);
         Optional.ofNullable(mainFormUpdateDto.getAboutProgram()).ifPresent(mainForm::setAboutProgram);
         Optional.ofNullable(mainFormUpdateDto.getConflictDamages()).ifPresent(mainForm::setConflictDamages);

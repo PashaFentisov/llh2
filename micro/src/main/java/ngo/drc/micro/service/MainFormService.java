@@ -1,7 +1,6 @@
 package ngo.drc.micro.service;
 
 import ngo.drc.core.dto.GenericFormResponse;
-import ngo.drc.core.dto.GenericPageFormResponse;
 import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.micro.dto.MainFormResponseDto;
 import ngo.drc.micro.dto.MainFormSavingDto;
@@ -15,16 +14,15 @@ public interface MainFormService {
 
     MainFormResponseDto saveMicroMainForm(MainFormSavingDto mainFormSavingDto);
 
-
     void deleteMicroMainForm(UUID id);
 
     void setAsNotDeletedMainForm(UUID id);
 
-    MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id);
+    MainFormResponseDto updateMicroMainForm(MainFormUpdateDto mainFormUpdateDto, UUID id, String email);
 
-    GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id);
+    GenericFormResponse<MainFormInfo, MainFormResponseDto> getMainForm(UUID id, String email);
 
-    GenericPageFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable);
+    GenericFormResponse<MainFormInfo, PageResponse<MainFormResponseDto>> getAllMainForms(Pageable pageable);
 
     MainFormResponseDto revertMainFormToLastVersion(UUID id);
 }
