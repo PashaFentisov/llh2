@@ -2,12 +2,12 @@ package ngo.drc.micro.service;
 
 import ngo.drc.core.security.entity.Role;
 import ngo.drc.micro.enumeration.MicroStatus;
-import ngo.drc.micro.form.MainFormInfo;
+import ngo.drc.micro.form.ApplicationFormMicroInfo;
 
 import java.util.Map;
 
-public interface MainFormInfoService {
-    MainFormInfo getMainFormInfo();
+public interface ApplicationFormMicroInfoService {
+    ApplicationFormMicroInfo getApplicationFormMicroInfo();
 
     Map<String, String> getAllStatuses();
 

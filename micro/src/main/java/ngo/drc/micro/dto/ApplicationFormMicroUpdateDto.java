@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MainFormUpdateDto {
+public class ApplicationFormMicroUpdateDto {
     @Valid
     private AddressInfoUpdateDto addressInfo;
     @Valid

@@ -1,4 +1,4 @@
-CREATE TABLE main_form
+CREATE TABLE application_form_micro
 (
     id uuid PRIMARY KEY,
     phone_number                                  VARCHAR(20)   NOT NULL,

@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MainFormResponseDto {
+public class ApplicationFormMicroResponseDto {
     private UUID id;
     private AddressInfoDto addressInfo;
     private BusinessInfoDto businessInfo;

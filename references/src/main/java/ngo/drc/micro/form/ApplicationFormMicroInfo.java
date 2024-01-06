@@ -11,7 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Data
 @Builder
-public class MainFormInfo {
+public class ApplicationFormMicroInfo {
     private AboutProgram aboutProgram;
     private ConflictDamage conflictDamage;
     private Gender gender;

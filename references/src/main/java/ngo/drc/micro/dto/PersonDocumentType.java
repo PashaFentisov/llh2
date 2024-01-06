@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class PersonDocumentType extends MicroMainFormPart {
+public class PersonDocumentType extends ApplicationFormMicroInfoPart {
 }

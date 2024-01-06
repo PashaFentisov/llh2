@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class ConflictDamage extends MicroMainFormPart {
+public class ConflictDamage extends ApplicationFormMicroInfoPart {
 
 }

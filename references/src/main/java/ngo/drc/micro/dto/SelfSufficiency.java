@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class SelfSufficiency extends MicroMainFormPart {
+public class SelfSufficiency extends ApplicationFormMicroInfoPart {
 
 }

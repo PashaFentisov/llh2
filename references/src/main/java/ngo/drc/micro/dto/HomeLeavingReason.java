@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class HomeLeavingReason extends MicroMainFormPart {
+public class HomeLeavingReason extends ApplicationFormMicroInfoPart {
 
 }
