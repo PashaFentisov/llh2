@@ -59,8 +59,7 @@ CREATE TABLE application_form_micro_last_version
     experience_of_such_activities text        NOT NULL,
     date_of_monitoring            timestamp,
     date_of_funding               timestamp,
-    date_of_approval              timestamp,
-    last_update                   timestamp   NOT NULL
+    date_of_approval timestamp
 );
 
 CREATE INDEX idx_last_version_main_form_id ON application_form_micro_last_version (application_form_micro_id);
