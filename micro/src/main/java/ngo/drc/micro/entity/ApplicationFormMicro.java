@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ngo.drc.micro.enumeration.MicroDonor;
 import ngo.drc.micro.enumeration.MicroStatus;
 import org.hibernate.annotations.BatchSize;
 
@@ -76,6 +77,29 @@ public class ApplicationFormMicro {
     private boolean tookPartInSuchPrograms;
     private String aboutProgram;
     private boolean isDeleted;
+
+
+    //missing(new) fields
+
+    private boolean lawyerStatus;
+
+    private String statusDescription;
+
+    @Enumerated(EnumType.STRING)
+    private MicroDonor donor;
+
+    private String experienceOfSuchActivities;
+
+    private OffsetDateTime dateOfMonitoring;
+    private OffsetDateTime dateOfFunding;
+    private OffsetDateTime dateOfApproval;
+    private int age;
+
+    private OffsetDateTime dateOfCreation;
+    private OffsetDateTime lastUpdate;
+
+
+
 
     public ApplicationFormMicro(ApplicationFormMicro applicationFormMicro) {
         this.id = applicationFormMicro.getId();

@@ -51,7 +51,18 @@ CREATE TABLE application_form_micro_last_version
     self_sufficiency                              VARCHAR(100)  NOT NULL,
     took_part_in_such_programs                    boolean       NOT NULL,
     about_program                                 VARCHAR(100)  NOT NULL,
-    is_deleted                                    boolean       NOT NULL
+    is_deleted                    boolean     NOT NULL,
+
+    lawyer_status                 boolean     NOT NULL,
+    status_description            text        NOT NULL,
+    donor                         VARCHAR(50) NOT NULL,
+    experience_of_such_activities text        NOT NULL,
+    date_of_monitoring            timestamp,
+    date_of_funding               timestamp,
+    date_of_approval              timestamp,
+    age                           int         NOT NULL,
+    date_of_creation              timestamp   Not Null,
+    last_update                   timestamp   NOT NULL
 );
 
 CREATE INDEX idx_last_version_main_form_id ON application_form_micro_last_version (application_form_micro_id);

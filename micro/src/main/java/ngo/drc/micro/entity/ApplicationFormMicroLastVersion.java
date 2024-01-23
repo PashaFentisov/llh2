@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ngo.drc.micro.enumeration.MicroDonor;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -57,6 +58,25 @@ public class ApplicationFormMicroLastVersion {
     private boolean tookPartInSuchPrograms;
     private String aboutProgram;
     private boolean isDeleted;
+
+    //new fields
+
+    private boolean lawyerStatus;
+
+    private String statusDescription;
+
+    @Enumerated(EnumType.STRING)
+    private MicroDonor donor;
+
+    private String experienceOfSuchActivities;
+
+    private OffsetDateTime dateOfMonitoring;
+    private OffsetDateTime dateOfFunding;
+    private OffsetDateTime dateOfApproval;
+    private int age;
+
+    private OffsetDateTime dateOfCreation;
+    private OffsetDateTime lastUpdate;
 
 
     public void setApplicationFormMicro(ApplicationFormMicro applicationFormMicro) {
