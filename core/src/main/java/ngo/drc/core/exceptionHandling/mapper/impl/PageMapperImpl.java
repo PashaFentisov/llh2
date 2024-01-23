@@ -1,8 +1,8 @@
-package ngo.drc.core.endpoint.mapper.impl;
+package ngo.drc.core.exceptionHandling.mapper.impl;
 
 
-import ngo.drc.core.endpoint.PageResponse;
-import ngo.drc.core.endpoint.mapper.PageMapper;
+import ngo.drc.core.exceptionHandling.PageResponse;
+import ngo.drc.core.exceptionHandling.mapper.PageMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
