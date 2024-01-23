@@ -95,8 +95,8 @@ public class ApplicationFormMicro {
     private OffsetDateTime dateOfApproval;
     private int age;
 
-    private OffsetDateTime dateOfCreation;
-    private OffsetDateTime lastUpdate;
+    private OffsetDateTime dateOfCreation = OffsetDateTime.now();
+    private OffsetDateTime lastUpdate = OffsetDateTime.now();
 
 
 

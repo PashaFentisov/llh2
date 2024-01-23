@@ -80,13 +80,14 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
     public ApplicationFormMicroResponseDto saveApplicationFormMicro(ApplicationFormMicroSavingDto applicationFormMicroSavingDto) {
         ApplicationFormMicro applicationFormMicro = applicationFormMicroSavingMapper.toEntity(applicationFormMicroSavingDto);
         applicationFormMicro.setDonor(MicroDonor.fromString(applicationFormMicroSavingDto.getDonorName()));
-        int age = Period.between(applicationFormMicro.getContactInfo().getDateOfBirth().toLocalDate(),
-                OffsetDateTime.now().toLocalDate()).getYears();
-        applicationFormMicro.setAge(age);
+        applicationFormMicro.setAge(getYears(applicationFormMicro));
         applicationFormMicro.setStatus(MicroStatus.FORM_MICRO_NEW);
-        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
-        applicationFormMicro.setDateOfCreation(OffsetDateTime.now());
         return applicationFormMicroResponseMapper.toDto(applicationFormMicroRepository.save(applicationFormMicro));
+    }
+
+    private static int getYears(ApplicationFormMicro applicationFormMicro) {
+        return Period.between(applicationFormMicro.getContactInfo().getDateOfBirth().toLocalDate(),
+                OffsetDateTime.now().toLocalDate()).getYears();
     }
 
     @Transactional

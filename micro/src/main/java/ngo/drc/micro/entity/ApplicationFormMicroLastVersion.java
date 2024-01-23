@@ -73,7 +73,6 @@ public class ApplicationFormMicroLastVersion {
     private OffsetDateTime dateOfMonitoring;
     private OffsetDateTime dateOfFunding;
     private OffsetDateTime dateOfApproval;
-    private int age;
 
     public void setApplicationFormMicro(ApplicationFormMicro applicationFormMicro) {
         this.applicationFormMicroId = applicationFormMicro.getId();
@@ -104,6 +103,5 @@ public class ApplicationFormMicroLastVersion {
         this.dateOfMonitoring = applicationFormMicro.getDateOfMonitoring();
         this.dateOfFunding = applicationFormMicro.getDateOfFunding();
         this.dateOfApproval = applicationFormMicro.getDateOfApproval();
-        this.age = applicationFormMicro.getAge();
     }
 }

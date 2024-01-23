@@ -55,13 +55,11 @@ CREATE TABLE application_form_micro_last_version
 
     lawyer_status                 boolean     NOT NULL,
     status_description            text        NOT NULL,
-    donor                         VARCHAR(50) NOT NULL,
+    donor VARCHAR(50),
     experience_of_such_activities text        NOT NULL,
     date_of_monitoring            timestamp,
     date_of_funding               timestamp,
     date_of_approval              timestamp,
-    age                           int         NOT NULL,
-    date_of_creation              timestamp   Not Null,
     last_update                   timestamp   NOT NULL
 );
 
