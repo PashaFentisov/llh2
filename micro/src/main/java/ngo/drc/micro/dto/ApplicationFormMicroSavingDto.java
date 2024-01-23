@@ -65,4 +65,13 @@ public class ApplicationFormMicroSavingDto {
     private boolean tookPartInSuchPrograms;
     @NotBlank(message = "About program can`t be empty or null")
     private String aboutProgram;
+
+    //
+    @NotBlank(message = "Status description can`t be empty or null")
+    private String statusDescription;
+
+    private String donorName;
+
+    @NotBlank(message = "Field experience of such activities can`t be empty or null")
+    private String experienceOfSuchActivities;
 }

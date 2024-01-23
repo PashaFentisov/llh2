@@ -41,5 +41,14 @@ public class ApplicationFormMicroUpdateDto {
     Set<String> negativeSurvivalStrategies;
     private Boolean tookPartInSuchPrograms;
     private String aboutProgram;
+
+    //
+    private String statusDescription;
+    private String donor;
+    private String experienceOfSuchActivities;
+    @JsonDeserialize(using = CustomOffsetDateTimeDeserializer.class)
+    private OffsetDateTime dateOfMonitoring;
+    @JsonDeserialize(using = CustomOffsetDateTimeDeserializer.class)
+    private OffsetDateTime dateOfFunding;
 }
 

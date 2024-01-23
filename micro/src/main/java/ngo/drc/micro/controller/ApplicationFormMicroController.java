@@ -10,6 +10,7 @@ import ngo.drc.core.exception.EntityValidationException;
 import ngo.drc.micro.dto.ApplicationFormMicroResponseDto;
 import ngo.drc.micro.dto.ApplicationFormMicroSavingDto;
 import ngo.drc.micro.dto.ApplicationFormMicroUpdateDto;
+import ngo.drc.micro.dto.LawyerStatusRequest;
 import ngo.drc.micro.form.ApplicationFormMicroInfo;
 import ngo.drc.micro.service.ApplicationFormMicroService;
 import ngo.drc.micro.service.impl.ApplicationFormMicroInfoServiceImpl;
@@ -77,19 +78,27 @@ public class ApplicationFormMicroController {
     }
 
     @PatchMapping("/set-as-not-deleted/{id}")
-    public ResponseEntity<Object> setAsNotDeletedMainForm(@PathVariable UUID id) {
+    public ResponseEntity<Object> setAsNotDeletedApplicationFormMicro(@PathVariable UUID id) {
         applicationFormMicroService.setAsNotDeletedApplicationFormMicro(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/set-lawyer-status/{id}")
+    public ResponseEntity<ApplicationFormMicroResponseDto> setLawyerStatusForApplicationFormMicro(@PathVariable UUID id,
+                                                                                                  @RequestBody LawyerStatusRequest lawyerStatusRequest) {
+        ApplicationFormMicroResponseDto response = applicationFormMicroService
+                .setLawyerStatusForApplicationFormMicro(id, lawyerStatusRequest);
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping("/revert-to-last-version/{id}")
-    public ResponseEntity<ApplicationFormMicroResponseDto> revertMainFormToLastVersion(@PathVariable UUID id) {
+    public ResponseEntity<ApplicationFormMicroResponseDto> revertApplicationFormMicroToLastVersion(@PathVariable UUID id) {
         ApplicationFormMicroResponseDto applicationFormMicroResponseDto = applicationFormMicroService.revertApplicationFormMicroToLastVersion(id);
         return ResponseEntity.ok(applicationFormMicroResponseDto);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApplicationFormMicroResponseDto> updateMicroMainForm(@PathVariable UUID id,
+    public ResponseEntity<ApplicationFormMicroResponseDto> updateApplicationFormMicro(@PathVariable UUID id,
                                                                                @RequestBody @Valid ApplicationFormMicroUpdateDto applicationFormMicroUpdateDto,
                                                                                Errors errors,
                                                                                @AuthenticationPrincipal UserDetails userDetails) {

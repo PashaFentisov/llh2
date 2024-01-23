@@ -5,6 +5,7 @@ import ngo.drc.core.endpoint.PageResponse;
 import ngo.drc.micro.dto.ApplicationFormMicroResponseDto;
 import ngo.drc.micro.dto.ApplicationFormMicroSavingDto;
 import ngo.drc.micro.dto.ApplicationFormMicroUpdateDto;
+import ngo.drc.micro.dto.LawyerStatusRequest;
 import ngo.drc.micro.form.ApplicationFormMicroInfo;
 import org.springframework.data.domain.Pageable;
 
@@ -25,4 +26,6 @@ public interface ApplicationFormMicroService {
     GenericFormResponse<ApplicationFormMicroInfo, PageResponse<ApplicationFormMicroResponseDto>> getAllApplicationFormsMicro(Pageable pageable);
 
     ApplicationFormMicroResponseDto revertApplicationFormMicroToLastVersion(UUID id);
+
+    ApplicationFormMicroResponseDto setLawyerStatusForApplicationFormMicro(UUID id, LawyerStatusRequest lawyerStatusRequest);
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ngo.drc.micro.enumeration.MicroDonor;
 import ngo.drc.micro.enumeration.MicroStatus;
 import org.hibernate.annotations.BatchSize;
 
@@ -77,6 +78,29 @@ public class ApplicationFormMicro {
     private String aboutProgram;
     private boolean isDeleted;
 
+
+    //missing(new) fields
+
+    private boolean lawyerStatus;
+
+    private String statusDescription;
+
+    @Enumerated(EnumType.STRING)
+    private MicroDonor donor;
+
+    private String experienceOfSuchActivities;
+
+    private OffsetDateTime dateOfMonitoring;
+    private OffsetDateTime dateOfFunding;
+    private OffsetDateTime dateOfApproval;
+    private int age;
+
+    private OffsetDateTime dateOfCreation = OffsetDateTime.now();
+    private OffsetDateTime lastUpdate = OffsetDateTime.now();
+
+
+
+
     public ApplicationFormMicro(ApplicationFormMicro applicationFormMicro) {
         this.id = applicationFormMicro.getId();
         this.contactInfo = new ContactInfo(applicationFormMicro.getContactInfo());
@@ -100,6 +124,15 @@ public class ApplicationFormMicro {
         this.aboutProgram = applicationFormMicro.getAboutProgram();
         this.isDeleted = applicationFormMicro.isDeleted();
         this.status = applicationFormMicro.getStatus();
+        this.lawyerStatus = applicationFormMicro.isLawyerStatus();
+        this.statusDescription = applicationFormMicro.getStatusDescription();
+        this.donor = applicationFormMicro.getDonor();
+        this.experienceOfSuchActivities = applicationFormMicro.getExperienceOfSuchActivities();
+        this.dateOfMonitoring = applicationFormMicro.getDateOfMonitoring();
+        this.dateOfFunding = applicationFormMicro.getDateOfFunding();
+        this.dateOfApproval = applicationFormMicro.getDateOfApproval();
+        this.age = applicationFormMicro.getAge();
+        this.dateOfCreation = applicationFormMicro.getDateOfCreation();
     }
 
     public void revertToLastVersion(ApplicationFormMicroLastVersion applicationFormMicroLastVersion) {
@@ -131,6 +164,14 @@ public class ApplicationFormMicro {
         this.tookPartInSuchPrograms = applicationFormMicroLastVersion.isTookPartInSuchPrograms();
         this.aboutProgram = applicationFormMicroLastVersion.getAboutProgram();
         this.isDeleted = applicationFormMicroLastVersion.isDeleted();
+        this.lawyerStatus = applicationFormMicroLastVersion.isLawyerStatus();
+        this.statusDescription = applicationFormMicroLastVersion.getStatusDescription();
+        this.donor = applicationFormMicroLastVersion.getDonor();
+        this.experienceOfSuchActivities = applicationFormMicroLastVersion.getExperienceOfSuchActivities();
+
+        this.dateOfMonitoring = applicationFormMicroLastVersion.getDateOfMonitoring();
+        this.dateOfFunding = applicationFormMicroLastVersion.getDateOfFunding();
+        this.dateOfApproval = applicationFormMicroLastVersion.getDateOfApproval();
     }
 
 }
