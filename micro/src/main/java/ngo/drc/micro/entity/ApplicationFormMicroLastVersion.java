@@ -75,10 +75,6 @@ public class ApplicationFormMicroLastVersion {
     private OffsetDateTime dateOfApproval;
     private int age;
 
-    private OffsetDateTime dateOfCreation;
-    private OffsetDateTime lastUpdate;
-
-
     public void setApplicationFormMicro(ApplicationFormMicro applicationFormMicro) {
         this.applicationFormMicroId = applicationFormMicro.getId();
         this.contactInfo = applicationFormMicro.getContactInfo();
@@ -101,5 +97,13 @@ public class ApplicationFormMicroLastVersion {
         this.tookPartInSuchPrograms = applicationFormMicro.isTookPartInSuchPrograms();
         this.aboutProgram = applicationFormMicro.getAboutProgram();
         this.isDeleted = applicationFormMicro.isDeleted();
+        this.lawyerStatus = applicationFormMicro.isLawyerStatus();
+        this.statusDescription = applicationFormMicro.getStatusDescription();
+        this.donor = applicationFormMicro.getDonor();
+        this.experienceOfSuchActivities = applicationFormMicro.getExperienceOfSuchActivities();
+        this.dateOfMonitoring = applicationFormMicro.getDateOfMonitoring();
+        this.dateOfFunding = applicationFormMicro.getDateOfFunding();
+        this.dateOfApproval = applicationFormMicro.getDateOfApproval();
+        this.age = applicationFormMicro.getAge();
     }
 }

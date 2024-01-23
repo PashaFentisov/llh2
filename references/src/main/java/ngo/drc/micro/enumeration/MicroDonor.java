@@ -16,4 +16,16 @@ public enum MicroDonor {
     SDC2("SDC 2"),
     DFID2021("DFID 2021");
     private final String donorName;
+
+    public static MicroDonor fromString(String text) {
+        if (text == null) {
+            return null;
+        }
+        for (MicroDonor donor : MicroDonor.values()) {
+            if (donor.donorName.equalsIgnoreCase(text)) {
+                return donor;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + text + " found");
+    }
 }

@@ -12,8 +12,10 @@ import ngo.drc.core.security.repository.UserRepository;
 import ngo.drc.micro.dto.ApplicationFormMicroResponseDto;
 import ngo.drc.micro.dto.ApplicationFormMicroSavingDto;
 import ngo.drc.micro.dto.ApplicationFormMicroUpdateDto;
+import ngo.drc.micro.dto.LawyerStatusRequest;
 import ngo.drc.micro.entity.ApplicationFormMicro;
 import ngo.drc.micro.entity.ApplicationFormMicroLastVersion;
+import ngo.drc.micro.enumeration.MicroDonor;
 import ngo.drc.micro.enumeration.MicroStatus;
 import ngo.drc.micro.form.ApplicationFormMicroInfo;
 import ngo.drc.micro.mapper.ApplicationFormMicroResponseMapper;
@@ -27,6 +29,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
+import java.time.Period;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,7 +79,13 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
     @Transactional
     public ApplicationFormMicroResponseDto saveApplicationFormMicro(ApplicationFormMicroSavingDto applicationFormMicroSavingDto) {
         ApplicationFormMicro applicationFormMicro = applicationFormMicroSavingMapper.toEntity(applicationFormMicroSavingDto);
+        applicationFormMicro.setDonor(MicroDonor.fromString(applicationFormMicroSavingDto.getDonorName()));
+        int age = Period.between(applicationFormMicro.getContactInfo().getDateOfBirth().toLocalDate(),
+                OffsetDateTime.now().toLocalDate()).getYears();
+        applicationFormMicro.setAge(age);
         applicationFormMicro.setStatus(MicroStatus.FORM_MICRO_NEW);
+        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
+        applicationFormMicro.setDateOfCreation(OffsetDateTime.now());
         return applicationFormMicroResponseMapper.toDto(applicationFormMicroRepository.save(applicationFormMicro));
     }
 
@@ -84,6 +94,7 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
     public void deleteApplicationFormMicro(UUID id) {
         ApplicationFormMicro applicationFormMicro = applicationFormMicroRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(APPLICATION_FORM_MICRO_ERROR_MESSAGE, id)));
+        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
         applicationFormMicro.setDeleted(true);
     }
 
@@ -92,6 +103,7 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
     public void setAsNotDeletedApplicationFormMicro(UUID id) {
         ApplicationFormMicro applicationFormMicro = applicationFormMicroRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(APPLICATION_FORM_MICRO_ERROR_MESSAGE, id)));
+        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
         applicationFormMicro.setDeleted(false);
     }
 
@@ -119,7 +131,9 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
             }
             applicationFormMicro.setStatus(status); //якщо роль не адмін і поточний статус не reject то міняємо статус на той який прийшов
         }
-
+        if (applicationFormMicro.getStatus() == MicroStatus.FORM_MICRO_APPROVED) {
+            applicationFormMicro.setDateOfApproval(OffsetDateTime.now());
+        }
         ApplicationFormMicro applicationFormMicroBeforeUpdate = new ApplicationFormMicro(applicationFormMicro);
         Optional.ofNullable(applicationFormMicroUpdateDto.getAboutProgram()).ifPresent(applicationFormMicro::setAboutProgram);
         Optional.ofNullable(applicationFormMicroUpdateDto.getConflictDamages()).ifPresent(applicationFormMicro::setConflictDamages);
@@ -176,6 +190,15 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
         Optional.ofNullable(applicationFormMicroUpdateDto.getBusinessInfo().getEmployeesHave()).ifPresent(applicationFormMicro.getBusinessInfo()::setEmployeesHave);
         Optional.ofNullable(applicationFormMicroUpdateDto.getBusinessInfo().getNumberOfEmployees()).ifPresent(applicationFormMicro.getBusinessInfo()::setNumberOfEmployees);
 
+        Optional.ofNullable(applicationFormMicroUpdateDto.getStatusDescription()).ifPresent(applicationFormMicro::setStatusDescription);
+        Optional.ofNullable(applicationFormMicroUpdateDto.getExperienceOfSuchActivities()).ifPresent(applicationFormMicro::setExperienceOfSuchActivities);
+
+        Optional.ofNullable(applicationFormMicroUpdateDto.getDonor())
+                .ifPresent(donor -> applicationFormMicro.setDonor(MicroDonor.fromString(donor)));
+        Optional.ofNullable(applicationFormMicroUpdateDto.getDateOfMonitoring()).ifPresent(applicationFormMicro::setDateOfMonitoring);
+        Optional.ofNullable(applicationFormMicroUpdateDto.getDateOfFunding()).ifPresent(applicationFormMicro::setDateOfFunding);
+
+        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
         ApplicationFormMicro updatedApplicationFormMicro = applicationFormMicroRepository.save(applicationFormMicro);
         throwFormUpdatedEvent();
         saveLastApplicationFormMicroVersion(applicationFormMicroBeforeUpdate);
@@ -206,6 +229,19 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
         ApplicationFormMicro applicationFormMicro = applicationFormMicroRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(APPLICATION_FORM_MICRO_ERROR_MESSAGE, id)));
         applicationFormMicro.revertToLastVersion(applicationFormMicroLastVersion);
+        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
         return applicationFormMicroResponseMapper.toDto(applicationFormMicro);
+    }
+
+    @Override
+    @Transactional
+    public ApplicationFormMicroResponseDto setLawyerStatusForApplicationFormMicro(UUID id, LawyerStatusRequest lawyerStatusRequest) {
+        ApplicationFormMicro applicationFormMicro = applicationFormMicroRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(APPLICATION_FORM_MICRO_ERROR_MESSAGE, id)));
+        applicationFormMicro.setLawyerStatus(lawyerStatusRequest.isStatus());
+        applicationFormMicro.setLastUpdate(OffsetDateTime.now());
+        ApplicationFormMicro savedForm = applicationFormMicroRepository.save(applicationFormMicro);
+        return applicationFormMicroResponseMapper.toDto(savedForm);
     }
 }

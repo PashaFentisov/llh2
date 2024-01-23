@@ -124,6 +124,15 @@ public class ApplicationFormMicro {
         this.aboutProgram = applicationFormMicro.getAboutProgram();
         this.isDeleted = applicationFormMicro.isDeleted();
         this.status = applicationFormMicro.getStatus();
+        this.lawyerStatus = applicationFormMicro.isLawyerStatus();
+        this.statusDescription = applicationFormMicro.getStatusDescription();
+        this.donor = applicationFormMicro.getDonor();
+        this.experienceOfSuchActivities = applicationFormMicro.getExperienceOfSuchActivities();
+        this.dateOfMonitoring = applicationFormMicro.getDateOfMonitoring();
+        this.dateOfFunding = applicationFormMicro.getDateOfFunding();
+        this.dateOfApproval = applicationFormMicro.getDateOfApproval();
+        this.age = applicationFormMicro.getAge();
+        this.dateOfCreation = applicationFormMicro.getDateOfCreation();
     }
 
     public void revertToLastVersion(ApplicationFormMicroLastVersion applicationFormMicroLastVersion) {
@@ -155,6 +164,14 @@ public class ApplicationFormMicro {
         this.tookPartInSuchPrograms = applicationFormMicroLastVersion.isTookPartInSuchPrograms();
         this.aboutProgram = applicationFormMicroLastVersion.getAboutProgram();
         this.isDeleted = applicationFormMicroLastVersion.isDeleted();
+        this.lawyerStatus = applicationFormMicroLastVersion.isLawyerStatus();
+        this.statusDescription = applicationFormMicroLastVersion.getStatusDescription();
+        this.donor = applicationFormMicroLastVersion.getDonor();
+        this.experienceOfSuchActivities = applicationFormMicroLastVersion.getExperienceOfSuchActivities();
+
+        this.dateOfMonitoring = applicationFormMicroLastVersion.getDateOfMonitoring();
+        this.dateOfFunding = applicationFormMicroLastVersion.getDateOfFunding();
+        this.dateOfApproval = applicationFormMicroLastVersion.getDateOfApproval();
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ngo.drc.micro.enumeration.MicroDonor;
 import ngo.drc.micro.enumeration.MicroStatus;
 
 import java.time.OffsetDateTime;
@@ -38,4 +39,17 @@ public class ApplicationFormMicroResponseDto {
     private boolean tookPartInSuchPrograms;
     private String aboutProgram;
     private boolean isDeleted;
+
+    //
+
+    private boolean lawyerStatus;
+    private String statusDescription;
+    private MicroDonor donor;
+    private String experienceOfSuchActivities;
+    private OffsetDateTime dateOfMonitoring;
+    private OffsetDateTime dateOfFunding;
+    private OffsetDateTime dateOfApproval;
+    private int age;
+    private OffsetDateTime dateOfCreation;
+    private OffsetDateTime lastUpdate;
 }
