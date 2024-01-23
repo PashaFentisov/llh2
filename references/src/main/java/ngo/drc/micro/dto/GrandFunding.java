@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class GrandFunding extends MicroMainFormPart {
+public class GrandFunding extends ApplicationFormMicroInfoPart {
 
 }

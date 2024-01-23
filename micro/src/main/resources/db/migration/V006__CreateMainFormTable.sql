@@ -1,7 +1,8 @@
-CREATE TABLE main_form
+CREATE TABLE application_form_micro
 (
     id uuid PRIMARY KEY,
     phone_number                                  VARCHAR(20)   NOT NULL,
+    status VARCHAR(50) NOT NULL,
     email                                         VARCHAR(50)   NOT NULL,
     first_name                                    VARCHAR(50)   NOT NULL,
     middle_name                                   VARCHAR(50)   NOT NULL,

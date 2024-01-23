@@ -1,9 +1,9 @@
 package ngo.drc.micro.util;
 
 
-public class MainFormInfoUtil {
+public class ApplicationFormMicroInfoUtil {
 
-    private MainFormInfoUtil() {
+    private ApplicationFormMicroInfoUtil() {
     }
     public static final String BUNDLE_NAME = "reference_book";
 

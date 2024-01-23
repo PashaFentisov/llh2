@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         User user = userAuthorizationMapper.toEntity(userDto);
         user.setIsVerified(true);  //todo temporary(delete later)
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role roleUser = roleRepository.findRoleByName("ROLE_USER");
+        Role roleUser = roleRepository.findRoleByName("ROLE_OPERATOR");
         user.setRole(roleUser);
         userRepository.save(user);
     }

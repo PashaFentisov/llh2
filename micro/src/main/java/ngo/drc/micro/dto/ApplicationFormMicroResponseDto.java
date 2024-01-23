@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ngo.drc.micro.enumeration.MicroStatus;
 
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -14,12 +15,13 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MainFormResponseDto {
+public class ApplicationFormMicroResponseDto {
     private UUID id;
     private AddressInfoDto addressInfo;
     private BusinessInfoDto businessInfo;
     private ContactInfoDto contactInfo;
     private DocumentInfoDto documentInfo;
+    private MicroStatus status;
     private boolean isVpo;
     private Long vpoReferenceNumber;
     private OffsetDateTime vpoReferenceIssuedDate;

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class StreetType extends MicroMainFormPart {
+public class StreetType extends ApplicationFormMicroInfoPart {
 
 }

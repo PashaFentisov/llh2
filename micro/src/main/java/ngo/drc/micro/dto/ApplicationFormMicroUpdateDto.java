@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MainFormUpdateDto {
+public class ApplicationFormMicroUpdateDto {
     @Valid
     private AddressInfoUpdateDto addressInfo;
     @Valid
@@ -23,6 +23,7 @@ public class MainFormUpdateDto {
     private ContactInfoUpdateDto contactInfo;
     @Valid
     private DocumentInfoUpdateDto documentInfo;
+    private String status;
     private Boolean isVpo;
     private Long vpoReferenceNumber;
     @JsonDeserialize(using = CustomOffsetDateTimeDeserializer.class)

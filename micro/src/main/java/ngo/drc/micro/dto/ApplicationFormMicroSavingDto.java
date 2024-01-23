@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MainFormSavingDto {
+public class ApplicationFormMicroSavingDto {
     @NotNull(message = "Address info number can`t be null")
     @Valid
     private AddressInfoDto addressInfo;

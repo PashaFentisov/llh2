@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class Gender extends MicroMainFormPart {
+public class Gender extends ApplicationFormMicroInfoPart {
 }

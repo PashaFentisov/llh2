@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
-public abstract class MicroMainFormPart {
+public abstract class ApplicationFormMicroInfoPart {
     private String label;
     private boolean isMultiple;
     private List<BundleRow> options = new ArrayList<>();

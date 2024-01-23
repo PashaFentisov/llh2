@@ -1,7 +1,7 @@
-CREATE TABLE main_form_last_version
+CREATE TABLE application_form_micro_last_version
 (
     id           uuid PRIMARY KEY,
-    main_form_id uuid NOT NULL,
+    application_form_micro_id uuid NOT NULL,
     phone_number                                  VARCHAR(20)   NOT NULL,
     conflict_damages                              VARCHAR(1000) NOT NULL,
     home_leaving_reasons                          VARCHAR(1000) NOT NULL,
@@ -54,4 +54,4 @@ CREATE TABLE main_form_last_version
     is_deleted                                    boolean       NOT NULL
 );
 
-CREATE INDEX idx_last_version_main_form_id ON main_form_last_version (main_form_id);
+CREATE INDEX idx_last_version_main_form_id ON application_form_micro_last_version (application_form_micro_id);
