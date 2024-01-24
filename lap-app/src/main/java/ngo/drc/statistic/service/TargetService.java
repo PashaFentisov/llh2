@@ -15,14 +15,14 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class TargetService {//todo create interface
+public class TargetService {
     private final ApplicationFormMicroRepository applicationFormMicroRepository;
 
     public Target calculateTarget() {
         Target target = new Target();
         Map<String, ModuleStatistic> allModuleStatistic = new HashMap<>();
 
-        ModuleStatistic micro = buildModuleStatistic();
+        ModuleStatistic micro = buildModuleStatistic();  //коли додаєм нові модулі спробувати параметризувати метод, щоб він приймав інтерфейс репозиторію
         allModuleStatistic.put("Micro", micro);
         //todo add other modules
 
@@ -68,7 +68,6 @@ public class TargetService {//todo create interface
                 .filter(status -> !(status.equals(MicroStatus.FORM_MICRO_PENDING) ||
                         status.equals(MicroStatus.FORM_MICRO_REJECT_FOREVER))
                 )
-//                .map(MicroStatus::getName)
                 .toList();
     }
 
