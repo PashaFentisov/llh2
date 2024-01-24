@@ -35,6 +35,7 @@ public class CurrencyRateService {
         return currencyRateResponseMapper.toDto(currencyRateRepository.save(currencyRate));
     }
 
+    @Transactional(readOnly = true)
     public CurrencyRateResponseDto getCurrencyRateById(UUID id) {
         CurrencyRate currencyRate = currencyRateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Currency rate with id " + id + " does not exist"));
