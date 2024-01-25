@@ -41,7 +41,7 @@ public class ApplicationFormMicroInfoServiceImpl implements ApplicationFormMicro
     @Override
     public Map<String, String> getAllStatuses() {
         return Arrays.stream(MicroStatus.values())
-                .collect(Collectors.toMap(Enum::toString, MicroStatus::getName));
+                .collect(Collectors.toMap(Enum::toString, MicroStatus::getName, (a, b) -> b, LinkedHashMap::new));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ApplicationFormMicroInfoServiceImpl implements ApplicationFormMicro
             case "ROLE_ADMIN" -> getAllStatuses();
             case "ROLE_OPERATOR" -> MicroStatusOperator.getNextStatuses(currentStatus)
                     .stream()
-                    .collect(Collectors.toMap(Enum::toString, MicroStatus::getName));
+                    .collect(Collectors.toMap(Enum::toString, MicroStatus::getName, (a, b) -> b, LinkedHashMap::new));
             default -> throw new IllegalArgumentException("Unsupported role: " + role.getName());
         };
     }

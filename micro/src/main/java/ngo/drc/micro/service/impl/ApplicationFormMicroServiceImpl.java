@@ -3,8 +3,6 @@ package ngo.drc.micro.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ngo.drc.core.dto.GenericFormResponse;
-import ngo.drc.core.exception.PermissionException;
-import ngo.drc.core.exception.StatusException;
 import ngo.drc.core.exceptionHandling.PageResponse;
 import ngo.drc.core.exceptionHandling.mapper.PageMapper;
 import ngo.drc.core.security.entity.User;
@@ -44,6 +42,7 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
     private final PageMapper pageMapper;
     private final ApplicationFormMicroLastVersionRepository applicationFormMicroLastVersionRepository;
     private final UserRepository userRepository;
+    private final StatusCheckService statusCheckService;
 
     private static final String APPLICATION_FORM_MICRO_ERROR_MESSAGE = "ApplicationFormMicro with id %s doesn't exist";
     private static final String USER_ERROR_MESSAGE = "User with email %s doesn't exist";
@@ -113,34 +112,11 @@ public class ApplicationFormMicroServiceImpl implements ApplicationFormMicroServ
     public ApplicationFormMicroResponseDto updateApplicationFormMicro(ApplicationFormMicroUpdateDto applicationFormMicroUpdateDto, UUID id, String email) {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(USER_ERROR_MESSAGE, email)));
-        MicroStatus status = MicroStatus.valueOf(applicationFormMicroUpdateDto.getStatus());
         ApplicationFormMicro applicationFormMicro = applicationFormMicroRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(APPLICATION_FORM_MICRO_ERROR_MESSAGE, id)));
-        if (applicationFormMicroUpdateDto.getStatus() != null) {
-            if (applicationFormMicro.getStatus().getName().contains("Reject") && user.getRole().getName().equals("ROLE_OPERATOR")) {
-                throw new PermissionException("You don't have permission to change status");
-                //якщо поточний статус reject і роль оператор то не дозволяємо змінювати статус
-            }
-            if (status == MicroStatus.FORM_MICRO_FUNDED && (applicationFormMicroUpdateDto.getDateOfFunding() == null ||
-                    (applicationFormMicro.getDonor() == null && applicationFormMicroUpdateDto.getDonor() == null))) {
-                throw new StatusException("Date of funding and donor must be set when status is funded");
-                //якщо статус funded то дата фандінгу і донор мають бути встановлені
-                //якщо на оновлення приходить статус funded то має прийти і дата фандінгу
-                // і якщо донор до цього був null то має прийти значення для нього
-            }
-            if (user.getRole().getName().equals("ROLE_ADMIN")) {
-                if (MicroStatus.getStatusesAfter(applicationFormMicro.getStatus()).contains(status) || status == MicroStatus.getPreviousStatus(applicationFormMicro.getStatus())) {
-                    applicationFormMicro.setStatus(status);
-                    //якщо роль admin і прийшов будь який статус який стоїть після поточного або той який перед поточним то міняємо
-                } else {
-                    throw new StatusException(String.format("You can't change status from %s to %s", applicationFormMicro.getStatus(), status));
-                }
-            }
-            applicationFormMicro.setStatus(status); //якщо роль не адмін і поточний статус не reject то міняємо статус на той який прийшов
-        }
-        if (applicationFormMicro.getStatus() == MicroStatus.FORM_MICRO_APPROVED) {
-            applicationFormMicro.setDateOfApproval(OffsetDateTime.now());
-        }
+
+        statusCheckService.isStatusValid(applicationFormMicroUpdateDto, applicationFormMicro, user);
+
         ApplicationFormMicro applicationFormMicroBeforeUpdate = new ApplicationFormMicro(applicationFormMicro);
         Optional.ofNullable(applicationFormMicroUpdateDto.getAboutProgram()).ifPresent(applicationFormMicro::setAboutProgram);
         Optional.ofNullable(applicationFormMicroUpdateDto.getConflictDamages()).ifPresent(applicationFormMicro::setConflictDamages);
