@@ -1,7 +1,7 @@
 package ngo.drc.micro.repository;
 
+import ngo.drc.micro.dto.ApplicationFormMicroStatsDto;
 import ngo.drc.micro.entity.ApplicationFormMicro;
-import ngo.drc.micro.enumeration.MicroDonor;
 import ngo.drc.micro.enumeration.MicroStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +15,6 @@ public interface ApplicationFormMicroRepository extends JpaRepository<Applicatio
     @Query("SELECT m FROM ApplicationFormMicro m WHERE m.isDeleted = false")
     Page<ApplicationFormMicro> findAllNotDeleted(Pageable pageable);
 
-    @Query("Select count(m) from ApplicationFormMicro m where m.status in :statuses")
-    long countApplicationFormsInStatus(List<MicroStatus> statuses);
-
-    @Query("Select count(m) from ApplicationFormMicro m where m.status in :statuses and m.donor = :donor")
-    long countApplicationFormsInStatusAndByDonor(List<MicroStatus> statuses, MicroDonor donor);
+    @Query("Select new ngo.drc.micro.dto.ApplicationFormMicroStatsDto(m.donor, m.status) from ApplicationFormMicro m where m.status in :statuses")
+    List<ApplicationFormMicroStatsDto> getApplicationFormsInStatus(List<MicroStatus> statuses);
 }
