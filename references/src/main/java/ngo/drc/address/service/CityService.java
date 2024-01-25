@@ -26,7 +26,9 @@ public class CityService {
 
     @Transactional
     public void saveCities(List<CityData> cityData) {
-        List<City> list = cityData.stream().map(cityMapper::toEntity).toList();
+        List<City> list = cityData.stream()
+                .map(cityMapper::toEntity)
+                .toList();
         cityRepository.saveAll(list);
     }
 

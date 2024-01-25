@@ -3,6 +3,7 @@ package ngo.drc.micro.enumeration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -28,64 +29,108 @@ public enum MicroStatusOperator {
     private final String name;
 
     public static Set<MicroStatus> getNextStatuses(MicroStatus status) {
+        LinkedHashSet<MicroStatus> statusSet = new LinkedHashSet<>();
         switch (status) {
             case FORM_MICRO_NEW -> {
-                return Set.of(MicroStatus.FORM_MICRO_NEW, MicroStatus.FORM_MICRO_VETTING, MicroStatus.FORM_MICRO_REJECT_VETTING);
+                statusSet.add(MicroStatus.FORM_MICRO_NEW);
+                statusSet.add(MicroStatus.FORM_MICRO_VETTING);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_VETTING);
+                return statusSet;
             }
             case FORM_MICRO_VETTING -> {
-                return Set.of(MicroStatus.FORM_MICRO_VETTING, MicroStatus.FORM_MICRO_REJECT_VETTING, MicroStatus.FORM_MICRO_PHONE_INTERVIEW);
+                statusSet.add(MicroStatus.FORM_MICRO_VETTING);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_VETTING);
+                statusSet.add(MicroStatus.FORM_MICRO_PHONE_INTERVIEW);
+                return statusSet;
             }
             case FORM_MICRO_REJECT_VETTING -> {
-                return Set.of(MicroStatus.FORM_MICRO_REJECT_VETTING, MicroStatus.FORM_MICRO_PHONE_INTERVIEW, MicroStatus.FORM_MICRO_REJECT_PHONE_INTERVIEW);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_VETTING);
+                statusSet.add(MicroStatus.FORM_MICRO_PHONE_INTERVIEW);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_PHONE_INTERVIEW);
+                return statusSet;
             }
             case FORM_MICRO_PHONE_INTERVIEW -> {
-                return Set.of(MicroStatus.FORM_MICRO_PHONE_INTERVIEW, MicroStatus.FORM_MICRO_REJECT_PHONE_INTERVIEW, MicroStatus.FORM_MICRO_FIELD_VISIT);
+                statusSet.add(MicroStatus.FORM_MICRO_PHONE_INTERVIEW);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_PHONE_INTERVIEW);
+                statusSet.add(MicroStatus.FORM_MICRO_FIELD_VISIT);
+                return statusSet;
             }
             case FORM_MICRO_REJECT_PHONE_INTERVIEW -> {
-                return Set.of(MicroStatus.FORM_MICRO_REJECT_PHONE_INTERVIEW, MicroStatus.FORM_MICRO_FIELD_VISIT, MicroStatus.FORM_MICRO_REJECT_FIELD_VISIT);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_PHONE_INTERVIEW);
+                statusSet.add(MicroStatus.FORM_MICRO_FIELD_VISIT);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_FIELD_VISIT);
+                return statusSet;
             }
-
             case FORM_MICRO_FIELD_VISIT -> {
-                return Set.of(MicroStatus.FORM_MICRO_FIELD_VISIT, MicroStatus.FORM_MICRO_REJECT_FIELD_VISIT, MicroStatus.FORM_MICRO_WAITING_FOR_APPROVAL);
+                statusSet.add(MicroStatus.FORM_MICRO_FIELD_VISIT);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_FIELD_VISIT);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_FOR_APPROVAL);
+                return statusSet;
             }
             case FORM_MICRO_REJECT_FIELD_VISIT -> {
-                return Set.of(MicroStatus.FORM_MICRO_REJECT_FIELD_VISIT, MicroStatus.FORM_MICRO_WAITING_FOR_APPROVAL, MicroStatus.FORM_MICRO_APPROVED);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_FIELD_VISIT);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_FOR_APPROVAL);
+                statusSet.add(MicroStatus.FORM_MICRO_APPROVED);
+                return statusSet;
             }
             case FORM_MICRO_WAITING_FOR_APPROVAL -> {
-                return Set.of(MicroStatus.FORM_MICRO_WAITING_FOR_APPROVAL, MicroStatus.FORM_MICRO_APPROVED, MicroStatus.FORM_MICRO_DOCUMENTS);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_FOR_APPROVAL);
+                statusSet.add(MicroStatus.FORM_MICRO_APPROVED);
+                statusSet.add(MicroStatus.FORM_MICRO_DOCUMENTS);
+                return statusSet;
             }
             case FORM_MICRO_APPROVED -> {
-                return Set.of(MicroStatus.FORM_MICRO_APPROVED, MicroStatus.FORM_MICRO_DOCUMENTS, MicroStatus.FORM_MICRO_WAITING_SIGNING);
+                statusSet.add(MicroStatus.FORM_MICRO_APPROVED);
+                statusSet.add(MicroStatus.FORM_MICRO_DOCUMENTS);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_SIGNING);
+                return statusSet;
             }
             case FORM_MICRO_DOCUMENTS -> {
-                return Set.of(MicroStatus.FORM_MICRO_DOCUMENTS, MicroStatus.FORM_MICRO_WAITING_SIGNING);
+                statusSet.add(MicroStatus.FORM_MICRO_DOCUMENTS);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_SIGNING);
+                return statusSet;
             }
             case FORM_MICRO_WAITING_SIGNING -> {
-                return Set.of(MicroStatus.FORM_MICRO_WAITING_SIGNING, MicroStatus.FORM_MICRO_SIGNED);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_SIGNING);
+                statusSet.add(MicroStatus.FORM_MICRO_SIGNED);
+                return statusSet;
             }
             case FORM_MICRO_SIGNED -> {
-                return Set.of(MicroStatus.FORM_MICRO_SIGNED, MicroStatus.FORM_MICRO_FUNDED);
+                statusSet.add(MicroStatus.FORM_MICRO_SIGNED);
+                statusSet.add(MicroStatus.FORM_MICRO_FUNDED);
+                return statusSet;
             }
             case FORM_MICRO_FUNDED -> {
-                return Set.of(MicroStatus.FORM_MICRO_FUNDED, MicroStatus.FORM_MICRO_WAITING_RECEIPTS);
+                statusSet.add(MicroStatus.FORM_MICRO_FUNDED);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_RECEIPTS);
+                return statusSet;
             }
             case FORM_MICRO_WAITING_RECEIPTS -> {
-                return Set.of(MicroStatus.FORM_MICRO_WAITING_RECEIPTS, MicroStatus.FORM_MICRO_RECEIPTS_SUBMITTED);
+                statusSet.add(MicroStatus.FORM_MICRO_WAITING_RECEIPTS);
+                statusSet.add(MicroStatus.FORM_MICRO_RECEIPTS_SUBMITTED);
+                return statusSet;
             }
             case FORM_MICRO_RECEIPTS_SUBMITTED -> {
-                return Set.of(MicroStatus.FORM_MICRO_RECEIPTS_SUBMITTED, MicroStatus.FORM_MICRO_MONITORING);
+                statusSet.add(MicroStatus.FORM_MICRO_RECEIPTS_SUBMITTED);
+                statusSet.add(MicroStatus.FORM_MICRO_MONITORING);
+                return statusSet;
             }
             case FORM_MICRO_MONITORING -> {
-                return Set.of(MicroStatus.FORM_MICRO_MONITORING, MicroStatus.FORM_MICRO_MONITORING_COMPLETED);
+                statusSet.add(MicroStatus.FORM_MICRO_MONITORING);
+                statusSet.add(MicroStatus.FORM_MICRO_MONITORING_COMPLETED);
+                return statusSet;
             }
             case FORM_MICRO_REJECT_APPROVED -> {
-                return Set.of(MicroStatus.FORM_MICRO_REJECT_APPROVED);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_APPROVED);
+                return statusSet;
             }
             case FORM_MICRO_PENDING -> {
-                return Set.of(MicroStatus.FORM_MICRO_PENDING);
+                statusSet.add(MicroStatus.FORM_MICRO_PENDING);
+                return statusSet;
             }
             case FORM_MICRO_REJECT_FOREVER -> {
-                return Set.of(MicroStatus.FORM_MICRO_REJECT_FOREVER);
+                statusSet.add(MicroStatus.FORM_MICRO_REJECT_FOREVER);
+                return statusSet;
             }
             default -> {
                 return Set.of();
