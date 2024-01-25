@@ -3,11 +3,11 @@ package ngo.drc.core.api;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotNull;
-import ngo.drc.core.endpoint.ResponseProducer;
-import ngo.drc.core.endpoint.dto.FailureResponse;
-import ngo.drc.core.endpoint.dto.ValidationFailedResponse;
 import ngo.drc.core.exception.EntityValidationException;
 import ngo.drc.core.exception.GenericDisplayableException;
+import ngo.drc.core.exceptionHandling.ResponseProducer;
+import ngo.drc.core.exceptionHandling.dto.FailureResponse;
+import ngo.drc.core.exceptionHandling.dto.ValidationFailedResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

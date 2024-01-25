@@ -1,4 +1,4 @@
-package ngo.drc.core.endpoint;
+package ngo.drc.core.exceptionHandling;
 
 import lombok.Getter;
 import lombok.Setter;

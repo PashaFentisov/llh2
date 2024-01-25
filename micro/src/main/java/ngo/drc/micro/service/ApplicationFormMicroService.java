@@ -1,7 +1,7 @@
 package ngo.drc.micro.service;
 
 import ngo.drc.core.dto.GenericFormResponse;
-import ngo.drc.core.endpoint.PageResponse;
+import ngo.drc.core.exceptionHandling.PageResponse;
 import ngo.drc.micro.dto.ApplicationFormMicroResponseDto;
 import ngo.drc.micro.dto.ApplicationFormMicroSavingDto;
 import ngo.drc.micro.dto.ApplicationFormMicroUpdateDto;

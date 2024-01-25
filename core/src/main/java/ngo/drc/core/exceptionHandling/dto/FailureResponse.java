@@ -1,10 +1,10 @@
-package ngo.drc.core.endpoint.dto;
+package ngo.drc.core.exceptionHandling.dto;
 
 
 import lombok.Getter;
 import lombok.Setter;
-import ngo.drc.core.endpoint.BaseResponse;
-import ngo.drc.core.endpoint.Status;
+import ngo.drc.core.exceptionHandling.BaseResponse;
+import ngo.drc.core.exceptionHandling.Status;
 
 
 @Getter
