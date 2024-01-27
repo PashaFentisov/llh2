@@ -1,6 +1,10 @@
 package ngo.drc.statistic.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +15,8 @@ import java.util.Map;
 @Getter
 @Builder
 public class Target {
+    @Builder.Default
     private Map<String, ModuleStatistic> allModuleStatistics = new HashMap<>();
+    @Builder.Default
     private Map<String, Long> waitingForApproval = new HashMap<>();
 }

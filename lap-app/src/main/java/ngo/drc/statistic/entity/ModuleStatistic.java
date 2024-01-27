@@ -12,5 +12,6 @@ import java.util.Map;
 @Setter
 @Builder
 public class ModuleStatistic {
+    @Builder.Default
     private Map<String, Stats> moduleStatisticMap = new HashMap<>();
 }

@@ -42,8 +42,10 @@ public class ApplicationFormMicroSavingDto {
     private OffsetDateTime vpoReferenceIssuedDate;
     @NotBlank(message = "Grand funding can`t be empty or null")
     private String grandFunding;
+    @Builder.Default
     @NotNull(message = "Conflict damages can`t be null")
     Set<String> conflictDamages = new HashSet<>();
+    @Builder.Default
     @NotNull(message = "Home leaving reasons can`t be null")
     Set<String> homeLeavingReasons = new HashSet<>();
     @NotNull(message = "People leaving with you can`t be null")
@@ -55,10 +57,12 @@ public class ApplicationFormMicroSavingDto {
     private String familyAverageMonthlyIncome;
     @NotBlank(message = "Family average monthly income before conflict can`t be empty or null")
     private String familyAverageMonthlyIncomeBeforeConflict;
+    @Builder.Default
     @NotNull(message = "Vulnerabilities can`t be null")
     Set<String> vulnerabilities = new HashSet<>();
     @NotBlank(message = "Self sufficiency can`t be empty or null")
     private String selfSufficiency;
+    @Builder.Default
     @NotNull(message = "Negative survival strategies can`t be null")
     Set<String> negativeSurvivalStrategies = new HashSet<>();
     @NotNull(message = "Took part in such programs can`t be null")
