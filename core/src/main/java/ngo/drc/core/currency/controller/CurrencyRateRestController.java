@@ -3,6 +3,7 @@ package ngo.drc.core.currency.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ngo.drc.core.currency.dto.CurrencyRateByDateRequestDto;
 import ngo.drc.core.currency.dto.CurrencyRateResponseDto;
 import ngo.drc.core.currency.dto.CurrencyRateSavingDto;
 import ngo.drc.core.currency.service.CurrencyRateService;
@@ -29,6 +30,16 @@ public class CurrencyRateRestController {
         return ResponseEntity.ok(currencyRateService.getCurrencyRateById(id));
     }
 
+    @GetMapping("/last")
+    public ResponseEntity<CurrencyRateResponseDto> getLastCurrencyRate() {
+        return ResponseEntity.ok(currencyRateService.getLastCurrencyRateBy());
+    }
+
+    @GetMapping("/last-by-date")
+    public ResponseEntity<CurrencyRateResponseDto> getLastByDateCurrencyRate(@RequestBody CurrencyRateByDateRequestDto currencyRateByDateRequestDto) {
+        return ResponseEntity.ok(currencyRateService.getLastByDateCurrencyRate(currencyRateByDateRequestDto));
+    }
+
     @GetMapping()
     public ResponseEntity<PageResponse<CurrencyRateResponseDto>> getCurrencyRates(
             @RequestParam(required = false, defaultValue = "0") int page,
@@ -52,4 +63,6 @@ public class CurrencyRateRestController {
         CurrencyRateResponseDto currencyRateResponseDto = currencyRateService.saveCurrencyRate(currencyRateSavingDto);
         return ResponseEntity.ok(currencyRateResponseDto);
     }
+
+
 }
