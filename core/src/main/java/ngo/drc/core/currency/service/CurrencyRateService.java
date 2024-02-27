@@ -2,6 +2,7 @@ package ngo.drc.core.currency.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import ngo.drc.core.currency.dto.CurrencyRateByDateRequestDto;
 import ngo.drc.core.currency.dto.CurrencyRateResponseDto;
 import ngo.drc.core.currency.dto.CurrencyRateSavingDto;
 import ngo.drc.core.currency.entity.CurrencyRate;
@@ -39,6 +40,20 @@ public class CurrencyRateService {
     public CurrencyRateResponseDto getCurrencyRateById(UUID id) {
         CurrencyRate currencyRate = currencyRateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Currency rate with id " + id + " does not exist"));
+        return currencyRateResponseMapper.toDto(currencyRate);
+    }
+
+    @Transactional(readOnly = true)
+    public CurrencyRateResponseDto getLastCurrencyRateBy() {
+        CurrencyRate currencyRate = currencyRateRepository.findLastCurrencyRate()
+                .orElseThrow(() -> new EntityNotFoundException("Currency rate does not exist"));
+        return currencyRateResponseMapper.toDto(currencyRate);
+    }
+
+    @Transactional(readOnly = true)
+    public CurrencyRateResponseDto getLastByDateCurrencyRate(CurrencyRateByDateRequestDto currencyRateByDateRequestDto) {
+        CurrencyRate currencyRate = currencyRateRepository.findLastByDateCurrencyRate(currencyRateByDateRequestDto.getDate())
+                .orElseThrow(() -> new EntityNotFoundException("Currency rate does not exist"));
         return currencyRateResponseMapper.toDto(currencyRate);
     }
 }
